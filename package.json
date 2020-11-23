@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "Rest API to save dnd data",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:api": "node --experimental-modules index.js",
+    "dev:client": "npm start",
+    "dev": "npm run dev:api && npm run dev:client"
   },
   "author": "Eric Chung",
   "license": "ISC",
@@ -18,6 +22,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "swagger-ui-express": "^4.1.5"
   }
 }
