@@ -45,7 +45,7 @@ const updateAbilityScores = (request, response) => {
     charisma     INT
 }
 
-const addNewFeatureOrTrait = (requset, response) => {
+const addNewFeatureOrTrait = (request, response) => {
   characterid
   title TEXT not null DEFAULT '',
     body  TEXT not null default ''

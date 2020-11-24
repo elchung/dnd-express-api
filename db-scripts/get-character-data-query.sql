@@ -101,26 +101,32 @@ select
                         )
                 ),
             'treasure', json_build_object(
-                    'id', treasure_table.id,
-                    'treasure', json_agg(
-                        json_build_object(
-                            'id', treasure_items.id,
-                            'name', treasure_items.name,
-                            'quantity', treasure_items.quantity,
-                            'weight_in_lbs', treasure_items.weight_in_lbs,
-                            'bookmarked', treasure_items.bookmarked,
-                            'magical', treasure_items.magical,
-                            'description_text', treasure_items.description_text
-                        ) 
-                    ),
-                    'money', json_build_object(
-                        'id', money_table.id,
-                        'gold', money_table.gold,
-                        'silver', money_table.silver,
-                        'electrum', money_table.electrum,
-                        'copper', money_table.copper
-                    )
+                'id', treasure_table.id,
+                'treasure', json_agg(
+                    json_build_object(
+                        'id', treasure_items.id,
+                        'name', treasure_items.name,
+                        'quantity', treasure_items.quantity,
+                        'weight_in_lbs', treasure_items.weight_in_lbs,
+                        'bookmarked', treasure_items.bookmarked,
+                        'magical', treasure_items.magical,
+                        'description_text', treasure_items.description_text
+                    ) 
                 ),
+                'money', json_build_object(
+                    'id', money_table.id,
+                    'gold', money_table.gold,
+                    'silver', money_table.silver,
+                    'electrum', money_table.electrum,
+                    'copper', money_table.copper
+                )
+            ),
+            'features_and_traits', json_agg(
+                json_build_object(
+                    'title', features_and_traits_description.title,
+                    'body', features_and_traits_description.body
+                )
+            ),
             '_settings', json_build_object(
                     'id', settings.id,
                     'ability_score_on_top', settings.ability_score_on_top
@@ -144,6 +150,8 @@ from character_data cd
     inner join character_spell_slot_data spell_slot_data_eight on spell_slot_data_eight.id = spell_slots.eight_id and spell_slots.id = cd.character_spell_slots_id
     inner join character_spell_slot_data spell_slot_data_nine on spell_slot_data_nine.id = spell_slots.nine_id and spell_slots.id = cd.character_spell_slots_id
     inner join character_treasure_items treasure_items on treasure_items.treasure_id = treasure_table.id
+    inner join character_features_and_traits features_and_traits on features_and_traits.character_id = cd.character_id
+    inner join character_features_and_traits_description features_and_traits_description on features_and_traits_description.id = features_and_traits.character_features_and_traits_description_id and features_and_traits.character_id = cd.character_id
 WHERE cd.character_id = 1
 GROUP BY 
 	cd.character_id, 
