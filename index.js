@@ -8,18 +8,16 @@ const port = 3000;
 
 // const AWS = require('aws-sdk'),
 //   region = "us-east-2",
-//   secretName = "dnd-db-admin", // TODO might want to update to user with not all permissions!!!!!!!!!!! 
+//   secretName = "dnd-db-admin", // TODO might want to update to user with not all permissions!!!!!!!!!!!
 //   secret,
 //   decodedBinarySecret;
 // // Create a Secrets Manager client
 // var client = new AWS.SecretsManager({
 //     region: region
 // });
-
 // // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
 // // See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
 // // We rethrow the exception by default.
-
 // client.getSecretValue({SecretId: secretName}, function(err, data) {
 //     if (err) {
 //         if (err.code === 'DecryptionFailureException')
@@ -53,14 +51,13 @@ const port = 3000;
 //             decodedBinarySecret = buff.toString('ascii');
 //         }
 //     }
-    
-//     // Your code goes here. 
+//     // Your code goes here.
 // });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
-}))
+}));
 
 // app.get('/', (request, response) => {
 //   response.json({ info: 'Node.js, Express, and Postgres API'})
@@ -70,28 +67,4 @@ app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+});

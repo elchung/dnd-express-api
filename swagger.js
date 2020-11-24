@@ -2,7 +2,7 @@ export default {
   "swagger": "2.0",
   "info": {
     "version": "1.0.0", //version of the OpenAPI Specification
-    "title": "My User Project CRUD",
+    "title": "Dnd CRUD",
     "description": "My User Project Application API",
     "license": {
       "name": "MIT",
@@ -25,20 +25,6 @@ export default {
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/characters": {
-      "get": {
-        "tags": ["Character"],
-        "summary": "Get all Character names and ids in system",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/characterType"
-            }
-          }
-        }
-      }
-    },
     "/characters/{user_id}": {
       "get": {
         "tags": ["Character"],
@@ -47,7 +33,7 @@ export default {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/character"
+              "$ref": "#/definitions/CharacterListType"
             }
           }
         }
@@ -61,7 +47,40 @@ export default {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Users"
+              "$ref": "#/definitions/CharacterType"
+            }
+          }
+        }
+      }
+    },
+    "/characters/death_save/{id}" : {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of character to update",
+          "type": "integer"
+        }
+      ],
+      "put": {
+        "summary": "Update death save for given character",
+        "tags": ["Character"],
+        "parameters": [
+          {
+            "name": "death_saves",
+            "in": "body",
+            "description": "new number of successful and failed death saves.",
+            "schema": {
+              "$ref": "#/definitions/DeathSaveType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Death saves are updated",
+            "schema": {
+              "$ref": "#/definitions/DeathSaveType"
             }
           }
         }
@@ -69,7 +88,7 @@ export default {
     }
   },
   "definitions": {
-    "characterType": {
+    "CharacterType": {
       "character_id": { "type": "integer", "uniqueItems": true },
       "user_name": { "type": "string" },
       "character_name": { "type": "string" },
@@ -200,33 +219,20 @@ export default {
         "ability_score_on_top": { "type": "boolean" },
       }
     },
-    "characterListType": {
-      "treasure": {
-        "id": { "type": "integer", "uniqueItems": true },
-        "treasure": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": { "type": "string" },
-              "id": { "type": "integer", "uniqueItems": true },
-              "quantity": { "type": "integer" },
-              "weight_in_lbs": { "type": "integer" },
-              "bookmarked": { "type": "boolean" },
-              "magical": { "type": "boolean" },
-              "description_text": { "type": "string" },
-            }
-          }
-        },
-        "money": {
-          "id": { "type": "integer", "uniqueItems": true },
-          "gold": { "type": "integer" },
-          "silver": { "type": "integer" },
-          "electrum": { "type": "integer" },
-          "copper": { "type": "integer" },
-        },
+    "CharacterListType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "id": { "type": "integer", "uniqueItems": true }
+        }
       },
+    },
+    "DeathSaveType": {
+      "successes": { "type": "integer" },
+      "failures": { "type": "integer" },
     }
-    "Users": {"type": "array","$ref": "#/definitions/User"}
   }
 }
+

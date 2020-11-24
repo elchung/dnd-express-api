@@ -1,4 +1,4 @@
-const Pool = require('pg').Pool
+const Pool = require('pg').Pool;
 
 const pool = new Pool({
   user: 'me',
@@ -6,7 +6,7 @@ const pool = new Pool({
   database: 'api',
   password: 'password',
   port: 5432,
-})
+});
 
 // const getUsers = (request, response) => {  //can modify this to be getCharacters
 //   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
@@ -26,7 +26,81 @@ const getCharacterById = (request, response) => {  // modify to be getCharacter
     }
     response.status(200).json(results.rows)
   })
+};
+
+const updateDeathSaves = (request, response) => {
+  //{successes: int, failures: int}
+};
+
+const updateKnownSpells = (request, response) => {
+  //{zero through nine, list of strings + character id }
 }
+
+const updateAbilityScores = (request, response) => {
+  strength 	 INT,
+    dexterity    INT,
+    constitution INT,
+    intelligence INT,
+    wisdom		 INT,
+    charisma     INT
+}
+
+const addNewFeatureOrTrait = (requset, response) => {
+  characterid
+  title TEXT not null DEFAULT '',
+    body  TEXT not null default ''
+}
+
+const updateFeatureOrTrait = (request, response) => {
+  characterid
+  trait_id
+  title TEXT not null DEFAULT '',
+    body  TEXT not null default ''
+}
+
+const deleteFeatureOrTrait = (request, response) => {
+
+}
+
+const updateSpellSlot = (request, response) => {
+  character id
+  spell level
+  max
+  used
+}
+
+const updateMoney= (request, response) => {
+
+}
+
+const updateTreasureItem = (request, response) => {
+
+}
+
+const addNewTreasureItem = (request, response) => {
+
+}
+
+const deleteTreasureItem = (request, response) => {
+
+}
+
+const updateCharacterSettings = (request, response) => {
+  field to update, character id
+}
+
+const updateHitDice = (request, response) => {
+
+}
+
+const addNewHitDice = (request, response) => {
+
+}
+
+const deleteHitDice = (request, response) => {
+
+}
+
 
 // const createUser = (request, response) => {
 //   const { name, email } = request.body
