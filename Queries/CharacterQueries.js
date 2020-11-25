@@ -29,46 +29,85 @@ const getCharacterById = (request, response) => {  // modify to be getCharacter
 };
 
 
-  getCharacterById
+const getCharacterById = (characterId) => {
+    
+};
 
-  getAllCharactersForUser
+const getAllCharactersForUser = (userId) => {
+    
+};
 
-  createCharacter
+const createCharacter = (params) => {
+    
+};
 
-  updateCharacterById
+const updateCharacterById = (characterId, params) => {
+    
+};
 
-  updateDeathSaves
+const updateDeathSaves = (characterId, newDeathSaves) => {
+    
+};
 
-  updateKnownSpells
+const updateKnownSpells = (characterId, newKnownSpells) => {
+    
+};
 
-  updateKnownSpellsAtLevel
+const updateKnownSpellsAtLevel = (characterId, level, newKnownSpellList) => {
+    
+};
 
-  updateAbilityScores
+const updateAbilityScores = (characterId, newAbilityScores) => {
+    
+};
 
-  addNewFeatureOrTrait
+const addNewFeatureOrTrait = (characterId, newFeature) => {
+    
+};
 
-  updateFeatureOrTrait
+const updateFeatureOrTrait = (characterId, featureId, newBody) => {
+    
+};
 
-  deleteFeatureOrTrait
+const deleteFeatureOrTrait = (characterId, featureId) => { //might just want featureId
+    
+};
 
-  updateSpellSlot
+const updateSpellSlot = (characterId, level, newSpellSlot) => {
+    
+};
 
-  updateMoney
+const updateMoney = (characterId, newMoney) => {
+    
+};
 
-  updateTreasureItem
+const updateTreasureItem = (characterId, treasureId, newTreasure) => {
+    
+};
 
-  addNewTreasureItem
+const addNewTreasureItem = (characterId, treasure) => {
+    
+};
 
-  deleteTreasureItem
+const deleteTreasureItem = (treasureId) => {
+    
+};
 
-  updateHitDice
+const updateHitDice = (characterId, hitDiceId, newHitDice) => {
+    
+};
 
-  updateCharacterSettings
+const updateCharacterSettings = (characterId, newSettings) => {
+    
+};
 
-  addNewHitDice
+const addNewHitDice = (characterId, newHitDice) => {
+    
+};
 
-  deleteHitDice
-
+const deleteHitDice = (hitDiceId) => {
+    
+};
 
 
 module.exports = {
