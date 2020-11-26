@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.js';
+import swaggerDocument from '../swagger.js';
 import * as CharacterQueries from './Queries/CharacterQueries';
 import cors from 'cors';
 
@@ -123,7 +123,7 @@ app.put('/characters/{character_id}/features_and_traits/{id}', (request, respons
     // body  TEXT not null default ''
 });
 
-app.delete('/characters/{character_id}/features_and_traits/{id}', (request, response) => { 
+app.delete('/characters/{character_id}/features_and_traits/{id}', (request, response) => {
   deleteFeatureOrTrait
 })
 
@@ -177,7 +177,7 @@ app.post('/characters/{character_id}/treasure/items', (request, response) => {
   //     }
   //   }
   // }
-  
+
 });
 
 app.delete('/characters/{character_id}/treasure/items/{id}', (request, response) => {
