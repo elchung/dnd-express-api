@@ -1,11 +1,14 @@
 module.exports = {
+  root: true,  
+  parser: "@typescript-eslint/parser", // Specifies the ESLint parser
   env: {
     browser: true,
     es2021: true,
   },
   extends: [
     'plugin:react/recommended',
-    'airbnb',
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -16,6 +19,7 @@ module.exports = {
   },
   plugins: [
     'react',
+    "@typescript-eslint",
   ],
   rules: {
   },
