@@ -26,80 +26,88 @@ select
             'tool_and_other_proficiencie', cd.tool_and_other_proficiencies,
             'prepared_spells', cd.prepared_spells,
             'ability_scores', json_build_object(
-                    'id', ability_scores.id,
-                    'strength', ability_scores.strength,
-                    'dexterity', ability_scores.dexterity,
-                    'constitution', ability_scores.constitution,
-                    'intelligence', ability_scores.intelligence,
-                    'wisdom', ability_scores.wisdom,
-                    'charisma', ability_scores.charisma
+                'id', ability_scores.id,
+                'strength', ability_scores.strength,
+                'dexterity', ability_scores.dexterity,
+                'constitution', ability_scores.constitution,
+                'intelligence', ability_scores.intelligence,
+                'wisdom', ability_scores.wisdom,
+                'charisma', ability_scores.charisma
                 ),
+            'hit_die', json_agg(
+                json_build_object(
+                    'id', hit_dice.id,
+                    'num_dice', hit_dice.num_dice,
+                    'dice_type', hit_dice.dice_type,
+                    'num_used', hit_dice.num_used,
+                )
+            ),
             'death_save', json_build_object(
-                    'id', death_saves.id,
-                    'successes', death_saves.successes,
-                    'failures', death_saves.failures
-                ),
+                'id', death_saves.id,
+                'successes', death_saves.successes,
+                'failures', death_saves.failures
+            ),
             'known_spells', json_build_object(
-                    'id', known_spells.id,
-                    'zero', known_spells.zero,
-                    'one', known_spells.one,
-                    'two', known_spells.two,
-                    'three', known_spells.three,
-                    'four', known_spells.four,
-                    'five', known_spells.five,
-                    'six', known_spells.six,
-                    'seven', known_spells.seven,
-                    'eight', known_spells.eight,
-                    'nine', known_spells.nine
-                ),
+                'id', known_spells.id,
+                'zero', known_spells.zero,
+                'one', known_spells.one,
+                'two', known_spells.two,
+                'three', known_spells.three,
+                'four', known_spells.four,
+                'five', known_spells.five,
+                'six', known_spells.six,
+                'seven', known_spells.seven,
+                'eight', known_spells.eight,
+                'nine', known_spells.nine
+            ),
             'spell_slots', json_build_object(
-                    'id', spell_slots.id,
-                    'one', json_build_object(
-                            'id', spell_slot_data_one.id,
-                            'max', spell_slot_data_one.max,
-                            'used', spell_slot_data_one.used
-                        ),
-                    'two', json_build_object(
-                            'id', spell_slot_data_two.id,
-                            'max', spell_slot_data_two.max,
-                            'used', spell_slot_data_two.used
-                        ),
-                    'three', json_build_object(
-                            'id', spell_slot_data_three.id,
-                            'max', spell_slot_data_three.max,
-                            'used', spell_slot_data_three.used
-                        ),
-                    'four', json_build_object(
-                            'id', spell_slot_data_four.id,
-                            'max', spell_slot_data_four.max,
-                            'used', spell_slot_data_four.used
-                        ),
-                    'five', json_build_object(
-                            'id', spell_slot_data_five.id,
-                            'max', spell_slot_data_five.max,
-                            'used', spell_slot_data_five.used
-                        ),
-                    'six', json_build_object(
-                            'id', spell_slot_data_six.id,
-                            'max', spell_slot_data_six.max,
-                            'used', spell_slot_data_six.used
-                        ),
-                    'seven', json_build_object(
-                            'id', spell_slot_data_seven.id,
-                            'max', spell_slot_data_seven.max,
-                            'used', spell_slot_data_seven.used
-                        ),
-                    'eight', json_build_object(
-                            'id', spell_slot_data_eight.id,
-                            'max', spell_slot_data_eight.max,
-                            'used', spell_slot_data_eight.used
-                        ),
-                    'nine', json_build_object(
-                            'id', spell_slot_data_nine.id,
-                            'max', spell_slot_data_nine.max,
-                            'used', spell_slot_data_nine.used
-                        )
+                'id', spell_slots.id,
+                'one', json_build_object(
+                    'id', spell_slot_data_one.id,
+                    'max', spell_slot_data_one.max,
+                    'used', spell_slot_data_one.used
                 ),
+                'two', json_build_object(
+                    'id', spell_slot_data_two.id,
+                    'max', spell_slot_data_two.max,
+                    'used', spell_slot_data_two.used
+                ),
+                'three', json_build_object(
+                    'id', spell_slot_data_three.id,
+                    'max', spell_slot_data_three.max,
+                    'used', spell_slot_data_three.used
+                ),
+                'four', json_build_object(
+                    'id', spell_slot_data_four.id,
+                    'max', spell_slot_data_four.max,
+                    'used', spell_slot_data_four.used
+                ),
+                'five', json_build_object(
+                    'id', spell_slot_data_five.id,
+                    'max', spell_slot_data_five.max,
+                    'used', spell_slot_data_five.used
+                ),
+                'six', json_build_object(
+                    'id', spell_slot_data_six.id,
+                    'max', spell_slot_data_six.max,
+                    'used', spell_slot_data_six.used
+                ),
+                'seven', json_build_object(
+                    'id', spell_slot_data_seven.id,
+                    'max', spell_slot_data_seven.max,
+                    'used', spell_slot_data_seven.used
+                ),
+                'eight', json_build_object(
+                    'id', spell_slot_data_eight.id,
+                    'max', spell_slot_data_eight.max,
+                    'used', spell_slot_data_eight.used
+                ),
+                'nine', json_build_object(
+                    'id', spell_slot_data_nine.id,
+                    'max', spell_slot_data_nine.max,
+                    'used', spell_slot_data_nine.used
+                )
+            ),
             'treasure', json_build_object(
                 'id', treasure_table.id,
                 'treasure', json_agg(
@@ -140,6 +148,7 @@ from character_data cd
     inner join character_death_saves death_saves on death_saves.id = cd.character_death_save_id
     inner join character_ability_scores ability_scores on ability_scores.id = cd.character_ability_scores_id
     inner join character_spell_slots spell_slots on spell_slots.id = cd.character_spell_slots_id
+    inner join character_hit_dice hit_dice on hit_dice.character_id = cd.character_id
     inner join character_spell_slot_data spell_slot_data_one on spell_slot_data_one.id = spell_slots.one_id and spell_slots.id = cd.character_spell_slots_id
     inner join character_spell_slot_data spell_slot_data_two on spell_slot_data_two.id = spell_slots.two_id and spell_slots.id = cd.character_spell_slots_id
     inner join character_spell_slot_data spell_slot_data_three on spell_slot_data_three.id = spell_slots.three_id and spell_slots.id = cd.character_spell_slots_id
@@ -171,4 +180,5 @@ GROUP BY
 	treasure_items.id,
 	money_table.id,
 	treasure_table.id,
+    hit_die.id,
 	settings.id;
