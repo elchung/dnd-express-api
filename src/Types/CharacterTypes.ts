@@ -8,13 +8,7 @@ export interface AbilityScoresType {
   charisma: number;
 }
 
-export interface DeathSavesType {
-  id: number;
-  successes: number;
-  failures: number;
-}
-
-export interface KnownpellsType {
+export interface KnownSpellsType {
   id: number;
   zero: string[];
   one: string[];
@@ -65,7 +59,7 @@ export interface SpellSlotsType {
   };
 }
 
-export interface FeaturesAndTraitsType {
+export interface FeaturesAndTraitType {
   id: number;
   title: string;
   body: string;
@@ -74,11 +68,6 @@ export interface FeaturesAndTraitsType {
 export interface SettingsType {
   id: number;
   ability_score_on_top: boolean;
-}
-
-export interface DeathSaveType {
-    successes: number;
-    failures: number;
 }
 
 export interface DeathSaveType {
@@ -101,10 +90,10 @@ export interface KnownSpellsType {
     nine: string[];
 }
 
-export interface FeatureAndTraitDescriptionType {
+export interface FeatureAndTraitsDescriptionType {
   title: string;
   body: string;
-  id: number;
+  id?: number;
 }
 
 export interface FeatureAndTraitDescriptionsType extends Array<FeatureAndTraitDescriptionType>{}
@@ -116,7 +105,7 @@ export interface SpellSlotsAtLevelType {
 
 export interface TreasureItemType { 
   name: string;
-  id: number;
+  id?: number;
   quantity: number;
   weight_in_lbs: number;
   bookmarked: boolean;
@@ -148,6 +137,15 @@ export interface CharacterSettingsType {
   ability_score_on_top: boolean;
 }
 
+export interface HitDiceType {
+  id: number;
+  num_dice: number;
+  dice_type: number;
+  num_used: number;
+}
+
+export interface HitDieType  extends Array<HitDiceType>{}
+
 export interface CharacterDataType {
   character_id: number;
   user_name: string;
@@ -174,6 +172,9 @@ export interface CharacterDataType {
   known_languages: string[];
   tool_and_other_proficiencie: string[];
   prepared_spells: string[];
+  hit_dice: {
+    [key: string]: HitDiceType;
+  };
   ability_scores: {
     [key: string]: AbilityScoresType;
   };
@@ -194,6 +195,6 @@ export interface CharacterDataType {
   };
   _settings: {
     id: number;
-    ability_score_on_top: boolean;;
+    ability_score_on_top: boolean;
   }
 };

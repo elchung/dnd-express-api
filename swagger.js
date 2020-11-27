@@ -478,6 +478,18 @@ export default {
         }
       },
     },
+    "HitDiceType": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "num_dice": { "type": "integer" },
+          "dice_type": { "type": "integer" },
+          "num_used": { "type": "integer" },
+        },
+      },
+    },
     "DeathSaveType": {
       "successes": { "type": "integer" },
       "failures": { "type": "integer" },

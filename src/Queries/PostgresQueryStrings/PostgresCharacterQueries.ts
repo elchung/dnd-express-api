@@ -1,4 +1,4 @@
-const getCharacterByIdQuery = ( characterId: number ): string => "select " + 
+export const getCharacterByIdQuery = ( characterId: number ): string => "select " + 
     "json_build_object( " +
     "'character_id', cd.character_id, " +
     "'user_name', cd.user_name, " +
