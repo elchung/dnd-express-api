@@ -7,11 +7,11 @@ import {
 const Pool = require('pg').Pool;
 
 const pool = new Pool({
-  user: getSecret(),
-  host: 'localhost',
-  database: 'api',
-  password: 'password',
-  port: 5432,
+  user: getSecret('dnd-db-user'),
+  host: getSecret('dnd-db-host'),
+  database: getSecret('dnd-db-name'),
+  password: getSecret('dnd-db-user-password'),
+  port: parseInt(getSecret('dnd-db-port')),
 });
 
 const getCharacterById = (characterId: number): void => {
