@@ -8,6 +8,18 @@ import cors from 'cors';
 const app = express();
 const port = 3000;
 
+//test block for aws secret manager working
+// import { getSecret } from "./Utils/AwsSecretManager";
+// const testObj = {
+//     user: getSecret('dnd-db-user'),
+//     host: getSecret('dnd-db-host'),
+//     database: getSecret('dnd-db-name'),
+//     password: getSecret('dnd-db-user-password'),
+//     port: parseInt(getSecret('dnd-db-port')),
+// };
+// console.log(testObj);
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,

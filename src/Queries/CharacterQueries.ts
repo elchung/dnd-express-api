@@ -14,8 +14,8 @@ const pool = new Pool({
   port: parseInt(getSecret('dnd-db-port')),
 });
 
-const getCharacterById = (characterId: number): void => {
-  getCharacterByIdQuery(characterId)
+const getCharacterById = (characterId: number): CharacterTypes.CharacterListType => {
+  getCharacterByIdQuery(characterId); // <- is string needed to pass into pg db to query
 };
 
 const getAllCharactersForUser = (userId: string): string[] => {  // does this return all characters, or just name+ids of them? probably just character names for data procesing limiting
