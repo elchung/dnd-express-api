@@ -1,3 +1,10 @@
+interface SingleCharacterListType {
+    name: string;
+    id: number;
+}
+
+export interface CharacterListType extends Array<SingleCharacterListType>{}
+
 export interface AbilityScoresType {
   id: number;
   strength: number;
@@ -103,7 +110,7 @@ export interface SpellSlotsAtLevelType {
     used: number;
 }
 
-export interface TreasureItemType { 
+export interface TreasureItemType {
   name: string;
   id?: number;
   quantity: number;
