@@ -6,8 +6,8 @@ const client = new AWS.SecretsManager({
   region: region
 });
 
-export const getSecret = (secretName: string): string => {
-  client.getSecretValue({SecretId: secretName}, (err, data) => {
+export const getSecret = async (secretName: string): Promise<any> => {
+  return client.getSecretValue({SecretId: secretName}, (err, data) => {
     if (err) {
       if (err.code === 'DecryptionFailureException') {
         console.error("AWS Secrets Manager can't decrypt the protected secret text using the provided KMS key.");
@@ -33,4 +33,7 @@ export const getSecret = (secretName: string): string => {
       }
     }
   });
+
 };
+
+export default getSecret;

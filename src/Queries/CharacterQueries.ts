@@ -1,119 +1,120 @@
 import * as CharacterTypes from '../Types/CharacterTypes';
+import { Pool } from 'pg';
 import { getSecret } from '../Utils/AwsSecretManager';
 import {
   getCharacterByIdQuery,
+  getCharacterNamesByUserIdQuery,
 } from './PostgresQueryStrings/PostgresCharacterQueries';
-
-const Pool = require('pg').Pool;
+// import { response } from 'express';
 
 const pool = new Pool({
-  user: getSecret('dnd-db-user'),
-  host: getSecret('dnd-db-host'),
-  database: getSecret('dnd-db-name'),
-  password: getSecret('dnd-db-user-password'),
-  port: parseInt(getSecret('dnd-db-port')),
+  user: await getSecret('dnd-db-user'),
+  host: await getSecret('dnd-db-host'),
+  database: await getSecret('dnd-db-name'),
+  password: await getSecret('dnd-db-user-password'),
+  port: parseInt(await getSecret('dnd-db-port')),
 });
 
-const getCharacterById = (characterId: number): CharacterTypes.CharacterListType => {
-  getCharacterByIdQuery(characterId); // <- is string needed to pass into pg db to query
+export const getCharacterById = async (characterId: string): Promise<any> => {  // Promise<CharacterTypes.CharacterListType> => {
+  return pool.query(getCharacterByIdQuery, [characterId]);
 };
 
-const getAllCharactersForUser = (userId: string): string[] => {  // does this return all characters, or just name+ids of them? probably just character names for data procesing limiting
-
+export const getAllCharactersForUser = async (userId: string): Promise<any> => {  // does this return all characters, or just name+ids of them? probably just character names for data procesing limiting
+  return pool.query(getCharacterNamesByUserIdQuery, [userId]);
 };
 
-const createCharacter = (params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
+// export const createCharacter = (params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
 
-};
+// };
 
-const updateCharacterById = (characterId: number, params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
+// export const updateCharacterById = (characterId: number, params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
 
-};
+// };
 
-const updateDeathSaves = (characterId: number, newDeathSaves: CharacterTypes.DeathSavesType): CharacterTypes.DeathSavesType => {
+// export const updateDeathSaves = (characterId: number, newDeathSaves: CharacterTypes.DeathSavesType): CharacterTypes.DeathSavesType => {
 
-};
+// };
 
-const updateKnownSpells = (characterId: number, newKnownSpells: CharacterTypes.KnownSpellsType): CharacterTypes.KnownSpellsType => {
+// export const updateKnownSpells = (characterId: number, newKnownSpells: CharacterTypes.KnownSpellsType): CharacterTypes.KnownSpellsType => {
 
-};
+// };
 
-const updateKnownSpellsAtLevel = (characterId: number, level: number, newKnownSpellList: string[]): string[] => {
+// export const updateKnownSpellsAtLevel = (characterId: number, level: number, newKnownSpellList: string[]): string[] => {
 
-};
+// };
 
-const updateAbilityScores = (characterId: number, newAbilityScores: CharacterTypes.AbilityScoresType): CharacterTypes.AbilityScoresType => {
+// export const updateAbilityScores = (characterId: number, newAbilityScores: CharacterTypes.AbilityScoresType): CharacterTypes.AbilityScoresType => {
 
-};
+// };
 
-const addNewFeatureOrTrait = (characterId: number, newFeature: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
+// export const addNewFeatureOrTrait = (characterId: number, newFeature: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
 
-};
+// };
 
-const updateFeatureOrTrait = (characterId: number, featureId: number, newBody: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
+// export const updateFeatureOrTrait = (characterId: number, featureId: number, newBody: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
 
-};
+// };
 
-const deleteFeatureOrTrait = (characterId: number, featureId: number): CharacterTypes.FeatureAndTraitsDescriptionType => { //might just want featureId
+// export const deleteFeatureOrTrait = (characterId: number, featureId: number): CharacterTypes.FeatureAndTraitsDescriptionType => { //might just want featureId
 
-};
+// };
 
-const updateSpellSlot = (characterId: number, level: number, newSpellSlot: CharacterTypes.SpellSlotsAtLevelType): CharacterTypes.SpellSlotsAtLevelType => {
+// export const updateSpellSlot = (characterId: number, level: number, newSpellSlot: CharacterTypes.SpellSlotsAtLevelType): CharacterTypes.SpellSlotsAtLevelType => {
 
-};
+// };
 
-const updateMoney = (characterId: number, newMoney: CharacterTypes.TreasureMoneyType): CharacterTypes.TreasureMoneyType => {
+// export const updateMoney = (characterId: number, newMoney: CharacterTypes.TreasureMoneyType): CharacterTypes.TreasureMoneyType => {
 
-};
+// };
 
-const updateTreasureItem = (characterId: number, treasureId: number, newTreasure: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
+// export const updateTreasureItem = (characterId: number, treasureId: number, newTreasure: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
 
-};
+// };
 
-const addNewTreasureItem = (characterId: number, treasureItem: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
+// export const addNewTreasureItem = (characterId: number, treasureItem: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
 
-};
+// };
 
-const deleteTreasureItem = (treasureId: number): boolean => { // return boolean???
+// export const deleteTreasureItem = (treasureId: number): boolean => { // return boolean???
 
-};
+// };
 
-const updateCharacterSettings = (characterId: number, newSettings: CharacterTypes.CharacterSettingsType): CharacterTypes.CharacterSettingsType => {
+// export const updateCharacterSettings = (characterId: number, newSettings: CharacterTypes.CharacterSettingsType): CharacterTypes.CharacterSettingsType => {
 
-};
+// };
 
-const updateHitDice = (characterId: number, hitDiceId: number, newHitDice: CharacterTypes.HitDiceType): CharacterTypes.HitDiceType => {
+// export const updateHitDice = (characterId: number, hitDiceId: number, newHitDice: CharacterTypes.HitDiceType): CharacterTypes.HitDiceType => {
 
-};
+// };
 
-const addNewHitDice = (characterId: number, newHitDice: CharacterTypes.HitDieType): CharacterTypes.HitDiceType => {
+// export const addNewHitDice = (characterId: number, newHitDice: CharacterTypes.HitDieType): CharacterTypes.HitDiceType => {
 
-};
+// };
 
-const deleteHitDice = (hitDiceId: number): CharacterTypes.HitDiceType => {
+// export const deleteHitDice = (hitDiceId: number): CharacterTypes.HitDiceType => {
 
-};
+// };
 
 
 module.exports = {
   getCharacterById,
-  getAllCharactersForUser,
-  createCharacter,
-  updateCharacterById,
-  updateDeathSaves,
-  updateKnownSpells,
-  updateKnownSpellsAtLevel,
-  updateAbilityScores,
-  addNewFeatureOrTrait,
-  updateFeatureOrTrait,
-  deleteFeatureOrTrait,
-  updateSpellSlot,
-  updateMoney,
-  updateTreasureItem,
-  addNewTreasureItem,
-  deleteTreasureItem,
-  updateHitDice,
-  updateCharacterSettings,
-  addNewHitDice,
-  deleteHitDice
+  // getAllCharactersForUser,
+  // createCharacter,
+  // updateCharacterById,
+  // updateDeathSaves,
+  // updateKnownSpells,
+  // updateKnownSpellsAtLevel,
+  // updateAbilityScores,
+  // addNewFeatureOrTrait,
+  // updateFeatureOrTrait,
+  // deleteFeatureOrTrait,
+  // updateSpellSlot,
+  // updateMoney,
+  // updateTreasureItem,
+  // addNewTreasureItem,
+  // deleteTreasureItem,
+  // updateHitDice,
+  // updateCharacterSettings,
+  // addNewHitDice,
+  // deleteHitDice
 }

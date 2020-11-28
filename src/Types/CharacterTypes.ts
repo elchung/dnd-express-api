@@ -103,7 +103,7 @@ export interface FeatureAndTraitsDescriptionType {
   id?: number;
 }
 
-export interface FeatureAndTraitDescriptionsType extends Array<FeatureAndTraitDescriptionType>{}
+export interface FeatureAndTraitDescriptionsType extends Array<FeatureAndTraitsDescriptionType>{}
 
 export interface SpellSlotsAtLevelType {
     max: number;
@@ -195,7 +195,7 @@ export interface CharacterDataType {
     [key: string]: SpellSlotsType;
   };
   features_and_traits: {
-    [key: string]: FeaturesAndTraitsType;
+    [key: string]: FeatureAndTraitDescriptionsType;
   };
   treasure: {
     [key: string]: TreasureType;

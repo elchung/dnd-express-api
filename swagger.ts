@@ -502,10 +502,6 @@ export default {
       "wisdom": { "type": "integer" },
       "charisma": { "type": "integer" },
     },
-    "DeathSaveType": {
-      "successes": { "type": "integer" },
-      "failures": { "type": "integer" },
-    },
     "KnownSpellsType": {
       "zero": { "type": "array", "items": { "type": "string" } },
       "one": { "type": "array", "items": { "type": "string" } },
