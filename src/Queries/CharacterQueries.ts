@@ -1,27 +1,34 @@
 import * as CharacterTypes from '../Types/CharacterTypes';
 import { Pool } from 'pg';
+import { getSecret } from '../Utils/AwsSecretManager';
 import {
   getCharacterByIdQuery,
   getCharacterNamesByUserIdQuery,
 } from './PostgresQueryStrings/PostgresCharacterQueries';
-// import { response } from 'express';
 
+if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME || !process.env.DB_USER_PASSWORD || !process.env.DB_PORT) {
+  throw new Error("Missing db variables.");
+}
 
-//keep...for now..
+// keep...for now..
 const pool = new Pool({
-  user: process.env.DB_USER,
+  user: process.env.DB_USER_NAME,
   host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: parseInt(process.env.DB_PORT),
+  database: process.env.DB_NAME,
+  password: process.env.DB_USER_PASSWORD,
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  port: +process.env.DB_PORT,
 });
 
 export const getCharacterById = async (characterId: string): Promise<any> => {  // Promise<CharacterTypes.CharacterListType> => {
-  return pool.query(getCharacterByIdQuery, [characterId]);
+  const result = await pool.query(getCharacterByIdQuery(characterId));
+  console.log(JSON.stringify(result.rows));
+  return result.rows[0].json_build_object;
 };
 
 export const getAllCharactersForUser = async (userId: string): Promise<any> => {  // does this return all characters, or just name+ids of them? probably just character names for data procesing limiting
-  return pool.query(getCharacterNamesByUserIdQuery, [userId]);
+  const result = await pool.query(getCharacterNamesByUserIdQuery(userId)); 
+  return result.rows[0].json_agg;
 };
 
 // export const createCharacter = (params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
@@ -99,7 +106,7 @@ export const getAllCharactersForUser = async (userId: string): Promise<any> => {
 
 module.exports = {
   getCharacterById,
-  // getAllCharactersForUser,
+  getAllCharactersForUser,
   // createCharacter,
   // updateCharacterById,
   // updateDeathSaves,

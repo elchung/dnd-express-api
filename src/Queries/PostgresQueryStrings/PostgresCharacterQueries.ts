@@ -1,4 +1,5 @@
-export const getCharacterByIdQuery = "select " + 
+export const getCharacterByIdQuery = (characterId: string): string => 
+    "select " + 
     "json_build_object( " +
     "'character_id', cd.character_id, " +
     "'user_name', cd.user_name, " +
@@ -44,7 +45,7 @@ export const getCharacterByIdQuery = "select " +
         "'id', hit_dice.id, " +
         "'num_dice', hit_dice.num_dice, " +
         "'dice_type', hit_dice.dice_type, " +
-        "'num_used', hit_dice.num_used, " +
+        "'num_used', hit_dice.num_used " +
         ") " +
     "), " +
     "'known_spells', json_build_object( " +
@@ -161,7 +162,7 @@ export const getCharacterByIdQuery = "select " +
     "inner join character_treasure_items treasure_items on treasure_items.treasure_id = treasure_table.id " +
     "inner join character_features_and_traits features_and_traits on features_and_traits.character_id = cd.character_id " +
     "inner join character_features_and_traits_description features_and_traits_description on features_and_traits_description.id = features_and_traits.character_features_and_traits_description_id and features_and_traits.character_id = cd.character_id " +
-    "WHERE cd.character_id = $1 " +
+    `WHERE cd.character_id = ${characterId} ` +
     "GROUP BY  " +
     "cd.character_id,  " +
     "ability_scores.id,  " +
@@ -180,10 +181,10 @@ export const getCharacterByIdQuery = "select " +
     "treasure_items.id, " +
     "money_table.id, " +
     "treasure_table.id, " +
-    "hit_die.id, " + 
+    "hit_dice.id, " + 
     "settings.id;";
 
-export const getCharacterNamesByUserIdQuery = 
+export const getCharacterNamesByUserIdQuery = (userId: string): string => 
     "SELECT " +
         "json_agg( " +
             "json_build_object( " +
@@ -192,5 +193,5 @@ export const getCharacterNamesByUserIdQuery =
             ") " +
         ") " +
     "FROM character_data cd " +
-    "WHERE cd.user_name = 'elchung' " +
+    `WHERE cd.user_name = '${userId}' ` +
     "GROUP BY cd.character_id;"
