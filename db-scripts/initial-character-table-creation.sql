@@ -86,7 +86,7 @@ CREATE TABLE character_sheet_settings (
 
 CREATE TABLE character_data (
 	character_id serial primary key,
-	user_name TEXT not null,
+	user_name TEXT not null unique,
 	character_name TEXT,
 	level TEXT,
 	class TEXT,
