@@ -1,18 +1,19 @@
 import * as CharacterTypes from '../Types/CharacterTypes';
 import { Pool } from 'pg';
-import { getSecret } from '../Utils/AwsSecretManager';
 import {
   getCharacterByIdQuery,
   getCharacterNamesByUserIdQuery,
 } from './PostgresQueryStrings/PostgresCharacterQueries';
 // import { response } from 'express';
 
+
+//keep...for now..
 const pool = new Pool({
-  user: await getSecret('dnd-db-user'),
-  host: await getSecret('dnd-db-host'),
-  database: await getSecret('dnd-db-name'),
-  password: await getSecret('dnd-db-user-password'),
-  port: parseInt(await getSecret('dnd-db-port')),
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: parseInt(process.env.DB_PORT),
 });
 
 export const getCharacterById = async (characterId: string): Promise<any> => {  // Promise<CharacterTypes.CharacterListType> => {

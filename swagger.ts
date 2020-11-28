@@ -26,14 +26,14 @@ export default {
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/characters/user/{userId}": {
+    "/characters/user/{username}": {
       "parameters": [
         {
-          "name": "userId",
+          "name": "username",
           "in": "path",
           "required": true,
-          "description": "ID of User to get",
-          "type": "integer"
+          "description": "username to get",
+          "type": "string"
         }
       ],
       "get": {

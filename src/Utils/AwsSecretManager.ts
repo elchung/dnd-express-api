@@ -28,8 +28,10 @@ export const getSecret = async (secretName: string): Promise<any> => {
       if ('SecretString' in data) {
         return data.SecretString;
       } else {
-        const buff = new Buffer(data.SecretBinary, 'base64');
-        return buff.toString('ascii');
+        console.error('using secret binary not supported....');
+        throw new Error('Usage of secret binary not yet supported.')
+        // const buff = new Buffer(data.SecretBinary, 'base64');  // TODO look into type differences with secretbinary and buffers
+        // return buff.toString('ascii');
       }
     }
   });

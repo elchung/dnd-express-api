@@ -1,0 +1,9 @@
+verify js app can connect ot vault in typescript easily??
+
+configure vault based on this https://learn.hashicorp.com/tutorials/vault/configure-vault
+
+move aws-sdk secret manager to vault usage
+
+
+
+

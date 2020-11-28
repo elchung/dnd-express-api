@@ -4,17 +4,14 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.js';
 import * as CharacterQueries from './Queries/CharacterQueries';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+if(process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 const app = express();
-const port = 3000;
-
-// test block for aws secret manager working
-import { getSecret } from "./Utils/AwsSecretManager";
-getSecret('dnd-db-user').then(res => console.log(res)),
-getSecret('dnd-db-host').then(res => console.log(res)),
-getSecret('dnd-db-name').then(res => console.log(res)),
-getSecret('dnd-db-user-password').then(res => console.log(res)),
-getSecret('dnd-db-port').then(res => console.log(res)),
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -28,8 +25,9 @@ app.get('/characters/:characterId', (request, response) => {
   return response.send(CharacterQueries.getCharacterById(request.params.characterId));
 });
 
-app.get('/characters/user/{user_id}', (request, response) => {
-  return response.send(CharacterQueries.getAllCharactersForUser(request.params.userId));
+app.get('/characters/user/{username}', (request, response) => {
+  console.log(request.params.username)
+  return response.send(CharacterQueries.getAllCharactersForUser(request.params.username));
 });
 
 // app.post('/characters/', (request, response) => {

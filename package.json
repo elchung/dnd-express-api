@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:api": "tsc src/index.ts",
-    "dev:client": "npm start",
+    "dev:api": "cross-env NODE_ENV=dev tsc --project ./",
+    "dev:client": "node ./build/src/index.js",
     "dev": "npm run dev:api && npm run dev:client",
-    "build": "tsc --project ./"
+    "build": "cross-env NODE_ENV=production tsc --project ./"
   },
   "author": "Eric Chung",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "@types/swagger-ui-express": "^4.1.2",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
+    "cross-env": "^7.0.2",
     "eslint": "^7.14.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
@@ -37,6 +38,7 @@
     "aws-sdk": "^2.799.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "swagger-ui-express": "^4.1.5"
