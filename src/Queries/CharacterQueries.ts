@@ -5,7 +5,8 @@ import {
   getCharacterByIdQuery,
   getCharacterNamesByUserIdQuery,
   updateDeathSavesQuery,
-  updateKnownSpellsQuery
+  updateKnownSpellsQuery,
+  updateKnownSpellAtLevelQuery,
 } from './PostgresQueryStrings/PostgresCharacterQueries';
 
 if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME || !process.env.DB_USER_PASSWORD || !process.env.DB_PORT) {
@@ -28,7 +29,7 @@ export const getCharacterById = async (characterId: string): Promise<CharacterTy
 };
 
 export const getAllCharactersForUser = async (userId: string): Promise<any> => {  // does this return all characters, or just name+ids of them? probably just character names for data procesing limiting
-  const result = await pool.query(getCharacterNamesByUserIdQuery(userId)); 
+  const result = await pool.query(getCharacterNamesByUserIdQuery(userId));
   return result.rows[0].json_agg;
 };
 
@@ -41,21 +42,26 @@ export const getAllCharactersForUser = async (userId: string): Promise<any> => {
 // };
 
 export const updateDeathSaves = async (characterId: string, successes: string, failures: string): Promise<CharacterTypes.DeathSavesType> => {
-  const result = await pool.query(updateDeathSavesQuery(characterId, successes, failures)); 
+  const result = await pool.query(updateDeathSavesQuery(characterId, successes, failures));
   console.log(result.rows[0]);
   return result.rows[0];
 };
 
 export const updateKnownSpells = async (characterId: string, newKnownSpells: CharacterTypes.KnownSpellsType): Promise<CharacterTypes.KnownSpellsType> => {
+  console.log(characterId);
   console.log(newKnownSpells);
-  const result = await pool.query(updateKnownSpellsQuery(characterId, newKnownSpells)); 
-  console.log(result.rows[0]);
+  console.log(updateKnownSpellsQuery(characterId, newKnownSpells))
+  const result = await pool.query(updateKnownSpellsQuery(characterId, newKnownSpells));
+  console.log(result);
   return result.rows[0];
 };
 
-// export const updateKnownSpellsAtLevel = async (characterId: string, level: string, newKnownSpellList: string[]): Promise<string[]> => {
-
-// };
+export const updateKnownSpellsAtLevel = async (characterId: string, level: string, newKnownSpellList: string[]): Promise<void> => { //Promise<string[]> => {
+  console.log(updateKnownSpellAtLevelQuery(characterId, level, newKnownSpellList))
+  const result = await pool.query(updateKnownSpellAtLevelQuery(characterId, level, newKnownSpellList));
+  console.log(result);
+  return result.rows[0];
+};
 
 // export const updateAbilityScores = async (characterId: string, newAbilityScores: CharacterTypes.AbilityScoresType): Promise<CharacterTypes.AbilityScoresType> => {
 
@@ -116,8 +122,8 @@ module.exports = {
   // createCharacter,
   // updateCharacterById,
   updateDeathSaves,
-  // updateKnownSpells,
-  // updateKnownSpellsAtLevel,
+  updateKnownSpells,
+  updateKnownSpellsAtLevel,
   // updateAbilityScores,
   // addNewFeatureOrTrait,
   // updateFeatureOrTrait,

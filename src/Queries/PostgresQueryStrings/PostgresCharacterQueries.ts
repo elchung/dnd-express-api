@@ -1,6 +1,9 @@
 import * as CharacterTypes from '../../Types/CharacterTypes';
-export const getCharacterByIdQuery = (characterId: string): string => 
-    "select " + 
+
+const numberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+
+export const getCharacterByIdQuery = (characterId: string): string =>
+    "select " +
     "json_build_object( " +
     "'character_id', cd.character_id, " +
     "'user_name', cd.user_name, " +
@@ -182,11 +185,11 @@ export const getCharacterByIdQuery = (characterId: string): string =>
     "treasure_items.id, " +
     "money_table.id, " +
     "treasure_table.id, " +
-    "hit_dice.id, " + 
+    "hit_dice.id, " +
     "settings.id;";
 
 
-export const getCharacterNamesByUserIdQuery = (userId: string): string => 
+export const getCharacterNamesByUserIdQuery = (userId: string): string =>
     "SELECT " +
         "json_agg( " +
             "json_build_object( " +
@@ -209,15 +212,15 @@ export const updateDeathSavesQuery = (characterId: string, successes: string, fa
 export const updateKnownSpellsQuery = (characterId: string, newKnownSpells: CharacterTypes.KnownSpellsType): string =>
     "UPDATE character_known_spells " +
     `SET zero='{${newKnownSpells.zero.join()}}', ` +
-        `one='{${newKnownSpells.one.join()}', ` +
-        `two='{${newKnownSpells.two.join()}', ` +
-        `three='{${newKnownSpells.three.join()}', ` +
-        `four='{${newKnownSpells.four.join()}', ` +
-        `five='{${newKnownSpells.five.join()}', ` +
-        `six='{${newKnownSpells.six.join()}', ` +
-        `seven='{${newKnownSpells.seven.join()}', ` +
-        `eight='{${newKnownSpells.eight.join()}', ` +
-        `nine='{${newKnownSpells.nine.join()}' ` +
+        `one='{${newKnownSpells.one.join()}}', ` +
+        `two='{${newKnownSpells.two.join()}}', ` +
+        `three='{${newKnownSpells.three.join()}}', ` +
+        `four='{${newKnownSpells.four.join()}}', ` +
+        `five='{${newKnownSpells.five.join()}}', ` +
+        `six='{${newKnownSpells.six.join()}}', ` +
+        `seven='{${newKnownSpells.seven.join()}}', ` +
+        `eight='{${newKnownSpells.eight.join()}}', ` +
+        `nine='{${newKnownSpells.nine.join()}}' ` +
     "FROM character_data cd " +
     `WHERE cd.character_id = ${characterId} and cd.character_known_spells_id = character_known_spells.id ` +
     "RETURNING character_known_spells.zero, " +
@@ -231,5 +234,11 @@ export const updateKnownSpellsQuery = (characterId: string, newKnownSpells: Char
         "character_known_spells.eight, " +
         "character_known_spells.nine; ";
 
+export const updateKnownSpellAtLevelQuery = (characterId: string, level: string, newKnownSpells: string[]): string =>
+  "UPDATE character_known_spells " +
+  `${numberWords[+level]}='{${newKnownSpells.join()}}', ` +
+  "FROM character_data cd " +
+  `WHERE cd.character_id = ${characterId} and cd.character_known_spells_id = character_known_spells.id ` +
+  `RETURNING character_known_spells.${numberWords[+level]}; `;
 
 

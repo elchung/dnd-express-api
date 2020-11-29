@@ -47,7 +47,6 @@ app.put('/characters/:characterId/death_saves', async (request, response) => {
 });
 
 app.put('/characters/:characterId/known_spells', async (request, response) => {
-  //response.body is an array of arrays of stirngs, index = spell level
   try {
     const res = await CharacterQueries.updateKnownSpells(request.params.characterId, request.body);
     return response.status(200).send(res);

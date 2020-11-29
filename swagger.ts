@@ -108,7 +108,7 @@ export default {
     "/characters/{characterId}/known_spells": {
       "parameters": [
         {
-          "name": "character_id",
+          "name": "characterId",
           "in": "path",
           "required": true,
           "description": "ID of character to update",
