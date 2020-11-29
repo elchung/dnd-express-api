@@ -142,8 +142,8 @@ WITH character_ability_scores_query as (
         )
     RETURNING character_id
 ), character_features_and_traits_description_query as (
-    INSERT INTO character_features_and_traits_description (title, body)
-        VALUES ('Alert', 'You can''t be surprised while conscious. You have a +5 bonus to initiative rolls. Other creatures also don''t gain advantage on attack rolls against you as a result of being hidden from you.')
+    INSERT INTO character_features_and_traits_description (index, title, body)
+        VALUES (0, 'Alert', 'You can''t be surprised while conscious. You have a +5 bonus to initiative rolls. Other creatures also don''t gain advantage on attack rolls against you as a result of being hidden from you.')
     RETURNING id
 ), character_features_and_traits_query as (
   INSERT INTO character_features_and_traits (character_id, character_features_and_traits_description_id)

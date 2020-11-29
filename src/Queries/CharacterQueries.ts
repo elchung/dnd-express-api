@@ -1,12 +1,15 @@
 import * as CharacterTypes from '../Types/CharacterTypes';
 import { Pool } from 'pg';
-import { getSecret } from '../Utils/AwsSecretManager';
 import {
   getCharacterByIdQuery,
   getCharacterNamesByUserIdQuery,
   updateDeathSavesQuery,
   updateKnownSpellsQuery,
-  updateKnownSpellAtLevelQuery,
+  updateKnownSpellsAtLevelQuery,
+  updateAbilityScoresQuery,
+  updateSpellSlotsQuery,
+  updateSpellSlotAtLevelQuery,
+  updateMoneyQuery,
 } from './PostgresQueryStrings/PostgresCharacterQueries';
 
 if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME || !process.env.DB_USER_PASSWORD || !process.env.DB_PORT) {
@@ -43,29 +46,23 @@ export const getAllCharactersForUser = async (userId: string): Promise<any> => {
 
 export const updateDeathSaves = async (characterId: string, successes: string, failures: string): Promise<CharacterTypes.DeathSavesType> => {
   const result = await pool.query(updateDeathSavesQuery(characterId, successes, failures));
-  console.log(result.rows[0]);
   return result.rows[0];
 };
 
 export const updateKnownSpells = async (characterId: string, newKnownSpells: CharacterTypes.KnownSpellsType): Promise<CharacterTypes.KnownSpellsType> => {
-  console.log(characterId);
-  console.log(newKnownSpells);
-  console.log(updateKnownSpellsQuery(characterId, newKnownSpells))
   const result = await pool.query(updateKnownSpellsQuery(characterId, newKnownSpells));
-  console.log(result);
   return result.rows[0];
 };
 
-export const updateKnownSpellsAtLevel = async (characterId: string, level: string, newKnownSpellList: string[]): Promise<void> => { //Promise<string[]> => {
-  console.log(updateKnownSpellAtLevelQuery(characterId, level, newKnownSpellList))
-  const result = await pool.query(updateKnownSpellAtLevelQuery(characterId, level, newKnownSpellList));
-  console.log(result);
+export const updateKnownSpellsAtLevel = async (characterId: string, level: string, newKnownSpellList: string[]): Promise<string[]> => {
+  const result = await pool.query(updateKnownSpellsAtLevelQuery(characterId, level, newKnownSpellList));
   return result.rows[0];
 };
 
-// export const updateAbilityScores = async (characterId: string, newAbilityScores: CharacterTypes.AbilityScoresType): Promise<CharacterTypes.AbilityScoresType> => {
-
-// };
+export const updateAbilityScores = async (characterId: string, newAbilityScores: CharacterTypes.AbilityScoresType): Promise<CharacterTypes.AbilityScoresType> => {
+  const result = await pool.query(updateAbilityScoresQuery(characterId, newAbilityScores));
+  return result.rows[0];
+};
 
 // export const addNewFeatureOrTrait = async (characterId: string, newFeature: CharacterTypes.FeatureAndTraitsDescriptionType): Promise<CharacterTypes.FeatureAndTraitsDescriptionType> => {
 
@@ -79,13 +76,20 @@ export const updateKnownSpellsAtLevel = async (characterId: string, level: strin
 
 // };
 
-// export const updateSpellSlot = async (characterId: string, level: string, newSpellSlot: CharacterTypes.SpellSlotsAtLevelType): Promise<CharacterTypes.SpellSlotsAtLevelType> => {
+export const updateSpellSlots = async (characterId: string, newSpellSlots: CharacterTypes.SpellSlotsType): Promise<CharacterTypes.SpellSlotsType> => {
+  const result = await pool.query(updateSpellSlotsQuery(characterId, newSpellSlots));
+  return result.rows[0];
+};
 
-// };
+export const updateSpellSlotAtLevel = async (characterId: string, level: string, newSpellSlotAtLevel: CharacterTypes.SpellSlotAtLevelType): Promise<CharacterTypes.SpellSlotAtLevelType> => {
+  const result = await pool.query(updateSpellSlotAtLevelQuery(characterId, level, newSpellSlotAtLevel));
+  return result.rows[0];
+};
 
-// export const updateMoney = async (characterId: string, newMoney: CharacterTypes.TreasureMoneyType): Promise<CharacterTypes.TreasureMoneyType> => {
-
-// };
+export const updateMoney = async (characterId: string, newMoney: CharacterTypes.TreasureMoneyType): Promise<CharacterTypes.TreasureMoneyType> => {
+  const result = await pool.query(updateMoneyQuery(characterId, newMoney));
+  return result.rows[0];
+};
 
 // export const updateTreasureItem = async (characterId: string, treasureId: string, newTreasure: CharacterTypes.TreasureItemType): Promise<CharacterTypes.TreasureItemType> => {
 
@@ -124,12 +128,13 @@ module.exports = {
   updateDeathSaves,
   updateKnownSpells,
   updateKnownSpellsAtLevel,
-  // updateAbilityScores,
+  updateAbilityScores,
   // addNewFeatureOrTrait,
   // updateFeatureOrTrait,
   // deleteFeatureOrTrait,
-  // updateSpellSlot,
-  // updateMoney,
+  updateSpellSlots,
+  updateSpellSlotAtLevel,
+  updateMoney,
   // updateTreasureItem,
   // addNewTreasureItem,
   // deleteTreasureItem,

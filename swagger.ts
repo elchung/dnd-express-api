@@ -4,7 +4,7 @@ export default {
   "info": {
     "version": "1.0.0", //version of the OpenAPI Specification
     "title": "Dnd CRUD",
-    "description": "My User Project Application API",
+    "description": "Dnd Character API",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -15,7 +15,7 @@ export default {
   "tags": [
     {
       "name": "Character",
-      "description": "API for characters in the system"
+      "description": "API for Characters in the system"
     },
     {
       "name": "Users",
@@ -45,6 +45,9 @@ export default {
             "schema": {
               "$ref": "#/definitions/CharacterListType"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -68,6 +71,9 @@ export default {
             "schema": {
               "$ref": "#/definitions/CharacterType"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -101,6 +107,9 @@ export default {
             "schema": {
               "$ref": "#/definitions/DeathSaveType"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -134,6 +143,9 @@ export default {
             "schema": {
               "$ref": "#/definitions/KnownSpellsType"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -141,7 +153,7 @@ export default {
     "/characters/{characterId}/known_spells/{level}": {
       "parameters": [
         {
-          "name": "character_id",
+          "name": "characterId",
           "in": "path",
           "required": true,
           "description": "ID of character to update",
@@ -174,14 +186,17 @@ export default {
             "schema": {
               "$ref": "#/definitions/KnownSpellsAtLevelType"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
-    "/characters/{characterId}/abilityScores": {
+    "/characters/{characterId}/ability_scores": {
       "parameters": [
         {
-          "name": "character_id",
+          "name": "characterId",
           "in": "path",
           "required": true,
           "description": "ID of character to update",
@@ -207,62 +222,25 @@ export default {
             "schema": {
               "$ref": "#/definitions/AbilityScoreType"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
-    "/characters/{characterId}/featuresAndTraits": {  // todo might want to consider bulk update for this too
+    "/characters/{characterId}/features_and_traits": {
       "parameters": [
         {
-          "name": "character_id",
+          "name": "characterId",
           "in": "path",
           "required": true,
           "description": "ID of character to add new feature or trait to",
-          "type": "integer"
-        }
-      ],
-      "post": {
-        "summary": "Add a new feature or trait given character",
-        "tags": ["Character"],
-        "parameters": [
-          {
-            "name": "feature_or_trait",
-            "in": "body",
-            "description": "Updated feature or trait.",
-            "schema": {
-              "$ref": "#/definitions/FeaturesAndTraitsType"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Added feature or trait.",
-            "schema": {
-              "$ref": "#/definitions/FeaturesAndTraitsType"
-            }
-          }
-        }
-      }
-    },
-    "/characters/{characterId}/featuresAndTraits/{id}": {
-      "parameters": [
-        {
-          "name": "character_id",
-          "in": "path",
-          "required": true,
-          "description": "ID of character to add new feature or trait to",
-          "type": "integer"
-        },
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "ID of feature or trait to change",
           "type": "integer"
         }
       ],
       "put": {
-        "summary": "Uupdate feature or trait given character and trait id",
+        "summary": "Update features or traits given character and trait id",
         "tags": ["Character"],
         "parameters": [
           {
@@ -280,6 +258,9 @@ export default {
             "schema": {
               "$ref": "#/definitions/FeaturesAndTraitsType"
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
@@ -302,15 +283,122 @@ export default {
             "schema": {
               "$ref": "#/definitions/FeaturesAndTraitsType"
             }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new feature or trait given character",
+        "tags": ["Character"],
+        "parameters": [
+          {
+            "name": "feature_or_trait",
+            "in": "body",
+            "description": "New feature or trait.",
+            "schema": {
+              "$ref": "#/definitions/FeaturesAndTraitsType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created feature or trait.",
+            "schema": {
+              "$ref": "#/definitions/FeaturesAndTraitsType"
+            }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/characters/{characterId}/spell_slots/{level}": {
-
+      "parameters": [
+        {
+          "name": "characterId",
+          "in": "path",
+          "required": true,
+          "description": "ID of character to update",
+          "type": "integer"
+        },
+        {
+          "name": "level",
+          "in": "path",
+          "required": true,
+          "description": "level of spell slots to update",
+          "type": "integer"
+        }
+      ],
+      "put": {
+        "summary": "Update spell slots at a specific level for given character",
+        "tags": ["Character"],
+        "parameters": [
+          {
+            "name": "spell_slots_at_level",
+            "in": "body",
+            "description": "Updated spell slot values for a specific level.",
+            "schema": {
+              "$ref": "#/definitions/SpellSlotsAtLevelType"
+            },
+            "examples": {
+              "$ref": "#/definitions/SpellSlotsAtLevelType"
+            }
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated Known Spells",
+            "schema": {
+              "$ref": "#/definitions/SpellSlotsAtLevelType"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     },
     "/characters/{characterId}/treasure/money": {
-
+      "parameters": [
+        {
+          "name": "characterId",
+          "in": "path",
+          "required": true,
+          "description": "ID of character to update",
+          "type": "integer"
+        }
+      ],
+      "put": {
+        "summary": "Update money for given character",
+        "tags": ["Character"],
+        "parameters": [
+          {
+            "name": "money",
+            "in": "body",
+            "description": "Updated money.",
+            "schema": {
+              "$ref": "#/definitions/TreasureMoneyType"
+            },
+            "examples": {
+              "$ref": "#/definitions/TreasureMoneyType"
+            }
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated Money",
+            "schema": {
+              "$ref": "#/definitions/TreasureMoneyType"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
     },
     "/characters/{characterId}/treasure/items/{id}": {
 
@@ -518,13 +606,14 @@ export default {
       "type": "array",
       "items": { "type": "string" },
     },
-    "FeatureAndTraitType": {
+    "FeaturesAndTraitsType": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
           "title": { "type": "string" },
           "body": { "type": "string" },
+          "index": { "type": "number"},
           "id": { "type": "integer", "uniqueItems": true },
         }
       },
@@ -559,4 +648,6 @@ export default {
     }
   }
 }
+
+
 

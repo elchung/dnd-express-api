@@ -1,6 +1,7 @@
 import * as CharacterTypes from '../../Types/CharacterTypes';
 
-const numberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+const numberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+const numToIdName = ['_', 'one_id', 'two_id', 'three_id', 'four_id', 'five_id', 'six_id', 'seven_id', 'eight_id', 'nine_id'];
 
 export const getCharacterByIdQuery = (characterId: string): string =>
     "select " +
@@ -234,11 +235,71 @@ export const updateKnownSpellsQuery = (characterId: string, newKnownSpells: Char
         "character_known_spells.eight, " +
         "character_known_spells.nine; ";
 
-export const updateKnownSpellAtLevelQuery = (characterId: string, level: string, newKnownSpells: string[]): string =>
-  "UPDATE character_known_spells " +
-  `${numberWords[+level]}='{${newKnownSpells.join()}}', ` +
-  "FROM character_data cd " +
-  `WHERE cd.character_id = ${characterId} and cd.character_known_spells_id = character_known_spells.id ` +
-  `RETURNING character_known_spells.${numberWords[+level]}; `;
+export const updateKnownSpellsAtLevelQuery = (characterId: string, level: string, newKnownSpells: string[]): string =>
+    "UPDATE character_known_spells " +
+    `SET ${numberWords[+level]}='{${newKnownSpells.join()}}' ` +
+    "FROM character_data cd " +
+    `WHERE cd.character_id = ${characterId} and cd.character_known_spells_id = character_known_spells.id ` +
+    `RETURNING character_known_spells.${numberWords[+level]}; `;
+
+export const updateAbilityScoresQuery = (characterId: string, newAbilityScores: CharacterTypes.AbilityScoresType): string =>
+    "UPDATE character_ability_scores " +
+    `SET strength=${newAbilityScores.strength}, ` +
+        `dexterity=${newAbilityScores.dexterity}, ` +
+        `constitution=${newAbilityScores.constitution}, ` +
+        `intelligence=${newAbilityScores.intelligence}, ` +
+        `wisdom=${newAbilityScores.wisdom}, ` +
+        `charisma=${newAbilityScores.charisma} ` +
+    "FROM character_data cd " +
+    `WHERE cd.character_id = ${characterId} and cd.character_ability_scores_id = character_ability_scores.id ` +
+    "RETURNING character_ability_scores.strength, " +
+        "character_ability_scores.dexterity, " +
+        "character_ability_scores.constitution, " +
+        "character_ability_scores.intelligence, " +
+        "character_ability_scores.wisdom, " +
+        "character_ability_scores.charisma; ";
+
+//TODO make this work
+export const updateSpellSlotsQuery = (characterId: string, newSpellSlots: CharacterTypes.SpellSlotsType): string => 
+    "UPDATE character_spell_slot_data; " ;
+
+
+
+export const updateSpellSlotAtLevelQuery = (characterId: string, level: string, newSpellSlots: CharacterTypes.SpellSlotAtLevelType): string => 
+    "UPDATE character_spell_slot_data " +
+    `SET max=${newSpellSlots.max}, used=${newSpellSlots.used} ` +
+    "FROM character_data cd, character_spell_slots spell_slots " +
+    `WHERE cd.character_id=${characterId} ` +
+        "AND cd.character_spell_slots_id=spell_slots.id " +
+        `AND spell_slots.${numToIdName[+level]}=character_spell_slot_data.id ` +
+    "RETURNING character_spell_slot_data.max, character_spell_slot_data.used;";
+
+export const updateMoneyQuery = (characterId: string, newMoney: CharacterTypes.TreasureMoneyType): string => 
+    "UPDATE character_treasure_money " +
+    `SET gold=${newMoney.gold}, silver=${newMoney.silver}, electrum=${newMoney.electrum}, copper=${newMoney.copper} ` + 
+    "FROM character_data cd, character_treasure treasure " +
+    `WHERE cd.character_id=${characterId} ` +
+        "AND cd.character_treasure_id=treasure.id " +
+        "AND treasure.money_id=character_treasure_money.id " +
+    "RETURNING character_treasure_money.gold, character_treasure_money.silver, character_treasure_money.electrum, character_treasure_money.copper;";
+
+export const createFeatureOrTraitQuery = (characterId: string, newItem: CharacterTypes.FeatureAndTraitsDescriptionType): string =>
+    "WITH character_features_and_traits_description_query as ( " +
+        "INSERT INTO character_features_and_traits_description (index, title, body) " +
+            `VALUES (${newItem.index}, '${newItem.title}', '${newItem.body}') ` +
+        "RETURNING id " +
+    ") " +
+    "INSERT INTO character_features_and_traits ( " +
+        "character_id,  " +
+        "character_features_and_traits_description_id " +
+	") " +
+    "VALUES ( " +
+        `${characterId} ` +
+        "(SELECT id from character_features_and_traits_description_query) " +
+    ");" ;
+
+export const updateFeaturesOrTraits
+
+export const deleteFeatureOrTrait
 
 

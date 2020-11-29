@@ -29,7 +29,7 @@ export interface KnownSpellsType {
   nine: string[];
 }
 
-export interface SpellSlotAtLevel {
+export interface SpellSlotAtLevelType {
   id: number;
   max: number;
   used: number;
@@ -38,38 +38,32 @@ export interface SpellSlotAtLevel {
 export interface SpellSlotsType {
   id: number;
   one: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   two: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   three: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   four: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   five: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   six: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   seven: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   eight: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
   nine: {
-    [key: string]: SpellSlotAtLevel;
+    [key: string]: SpellSlotAtLevelType;
   };
-}
-
-export interface FeaturesAndTraitType {
-  id: number;
-  title: string;
-  body: string;
 }
 
 export interface SettingsType {
@@ -96,6 +90,7 @@ export interface KnownSpellsType {
 }
 
 export interface FeatureAndTraitsDescriptionType {
+  index: string;
   title: string;
   body: string;
   id?: number;
@@ -103,7 +98,7 @@ export interface FeatureAndTraitsDescriptionType {
 
 export interface FeatureAndTraitDescriptionsType extends Array<FeatureAndTraitsDescriptionType>{}
 
-export interface SpellSlotsAtLevelType {
+export interface SpellSlotAtLevelType {
     max: number;
     used: number;
 }

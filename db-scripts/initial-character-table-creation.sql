@@ -30,8 +30,9 @@ CREATE TABLE character_known_spells (
 
 CREATE TABLE character_features_and_traits_description (
 	id serial primary key,
+	index INT not null,
 	title TEXT not null DEFAULT '',
-	body  TEXT not null default ''
+	body  TEXT not null DEFAULT ''
 );
 
 CREATE TABLE character_spell_slot_data (
