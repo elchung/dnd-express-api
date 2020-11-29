@@ -72,7 +72,7 @@ export default {
         }
       }
     },
-    "/characters/{characterId}/deathSave" : {
+    "/characters/{characterId}/death_saves" : {
       "parameters": [
         {
           "name": "characterId",
@@ -89,7 +89,7 @@ export default {
           {
             "name": "death_saves",
             "in": "body",
-            "description": "new number of successful and failed death saves.",
+            "description": "New number of successful and failed death saves.",
             "schema": {
               "$ref": "#/definitions/DeathSaveType"
             }

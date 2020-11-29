@@ -184,6 +184,7 @@ export const getCharacterByIdQuery = (characterId: string): string =>
     "hit_dice.id, " + 
     "settings.id;";
 
+
 export const getCharacterNamesByUserIdQuery = (userId: string): string => 
     "SELECT " +
         "json_agg( " +
@@ -194,4 +195,17 @@ export const getCharacterNamesByUserIdQuery = (userId: string): string =>
         ") " +
     "FROM character_data cd " +
     `WHERE cd.user_name = '${userId}' ` +
-    "GROUP BY cd.character_id;"
+    "GROUP BY cd.character_id;";
+
+export const updateDeathSavesQuery = (characterId: string, successes: string, failures: string ): string =>
+    "UPDATE character_death_saves " +
+    `SET successes = ${successes}, ` +
+	    `failures = ${failures} ` +
+    "FROM character_data cd " +
+    `WHERE cd.character_id = ${characterId} and cd.character_death_save_id = character_death_saves.id ` +
+    "RETURNING character_death_saves.successes, character_death_saves.failures;";
+
+
+
+
+

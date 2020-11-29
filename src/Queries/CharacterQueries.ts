@@ -4,6 +4,7 @@ import { getSecret } from '../Utils/AwsSecretManager';
 import {
   getCharacterByIdQuery,
   getCharacterNamesByUserIdQuery,
+  updateDeathSavesQuery,
 } from './PostgresQueryStrings/PostgresCharacterQueries';
 
 if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME || !process.env.DB_USER_PASSWORD || !process.env.DB_PORT) {
@@ -20,9 +21,8 @@ const pool = new Pool({
   port: +process.env.DB_PORT,
 });
 
-export const getCharacterById = async (characterId: string): Promise<any> => {  // Promise<CharacterTypes.CharacterListType> => {
+export const getCharacterById = async (characterId: string): Promise<CharacterTypes.CharacterListType> => {
   const result = await pool.query(getCharacterByIdQuery(characterId));
-  console.log(JSON.stringify(result.rows));
   return result.rows[0].json_build_object;
 };
 
@@ -31,75 +31,77 @@ export const getAllCharactersForUser = async (userId: string): Promise<any> => {
   return result.rows[0].json_agg;
 };
 
-// export const createCharacter = (params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
+// export const createCharacter = async (params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
 
 // };
 
-// export const updateCharacterById = (characterId: number, params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
+// export const updateCharacterById = async (characterId: number, params: CharacterTypes.CharacterDataType): CharacterTypes.CharacterDataType => {
 
 // };
 
-// export const updateDeathSaves = (characterId: number, newDeathSaves: CharacterTypes.DeathSavesType): CharacterTypes.DeathSavesType => {
+export const updateDeathSaves = async (characterId: string, successes: string, failures: string): Promise<CharacterTypes.DeathSavesType> => {
+  const result = await pool.query(updateDeathSavesQuery(characterId, successes, failures)); 
+  console.log(result.rows[0]);
+  return result.rows[0];
+};
+
+// export const updateKnownSpells = async (characterId: number, newKnownSpells: CharacterTypes.KnownSpellsType): CharacterTypes.KnownSpellsType => {
 
 // };
 
-// export const updateKnownSpells = (characterId: number, newKnownSpells: CharacterTypes.KnownSpellsType): CharacterTypes.KnownSpellsType => {
+// export const updateKnownSpellsAtLevel = async (characterId: number, level: number, newKnownSpellList: string[]): string[] => {
 
 // };
 
-// export const updateKnownSpellsAtLevel = (characterId: number, level: number, newKnownSpellList: string[]): string[] => {
+// export const updateAbilityScores = async (characterId: number, newAbilityScores: CharacterTypes.AbilityScoresType): CharacterTypes.AbilityScoresType => {
 
 // };
 
-// export const updateAbilityScores = (characterId: number, newAbilityScores: CharacterTypes.AbilityScoresType): CharacterTypes.AbilityScoresType => {
+// export const addNewFeatureOrTrait = async (characterId: number, newFeature: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
 
 // };
 
-// export const addNewFeatureOrTrait = (characterId: number, newFeature: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
+// export const updateFeatureOrTrait = async (characterId: number, featureId: number, newBody: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
 
 // };
 
-// export const updateFeatureOrTrait = (characterId: number, featureId: number, newBody: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
+// export const deleteFeatureOrTrait = async (characterId: number, featureId: number): CharacterTypes.FeatureAndTraitsDescriptionType => { //might just want featureId
 
 // };
 
-// export const deleteFeatureOrTrait = (characterId: number, featureId: number): CharacterTypes.FeatureAndTraitsDescriptionType => { //might just want featureId
+// export const updateSpellSlot = async (characterId: number, level: number, newSpellSlot: CharacterTypes.SpellSlotsAtLevelType): CharacterTypes.SpellSlotsAtLevelType => {
 
 // };
 
-// export const updateSpellSlot = (characterId: number, level: number, newSpellSlot: CharacterTypes.SpellSlotsAtLevelType): CharacterTypes.SpellSlotsAtLevelType => {
+// export const updateMoney = async (characterId: number, newMoney: CharacterTypes.TreasureMoneyType): CharacterTypes.TreasureMoneyType => {
 
 // };
 
-// export const updateMoney = (characterId: number, newMoney: CharacterTypes.TreasureMoneyType): CharacterTypes.TreasureMoneyType => {
+// export const updateTreasureItem = async (characterId: number, treasureId: number, newTreasure: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
 
 // };
 
-// export const updateTreasureItem = (characterId: number, treasureId: number, newTreasure: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
+// export const addNewTreasureItem = async (characterId: number, treasureItem: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
 
 // };
 
-// export const addNewTreasureItem = (characterId: number, treasureItem: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
+// export const deleteTreasureItem = async (treasureId: number): boolean => { // return boolean???
 
 // };
 
-// export const deleteTreasureItem = (treasureId: number): boolean => { // return boolean???
+// export const updateCharacterSettings = async (characterId: number, newSettings: CharacterTypes.CharacterSettingsType): CharacterTypes.CharacterSettingsType => {
 
 // };
 
-// export const updateCharacterSettings = (characterId: number, newSettings: CharacterTypes.CharacterSettingsType): CharacterTypes.CharacterSettingsType => {
+// export const updateHitDice = async (characterId: number, hitDiceId: number, newHitDice: CharacterTypes.HitDiceType): CharacterTypes.HitDiceType => {
 
 // };
 
-// export const updateHitDice = (characterId: number, hitDiceId: number, newHitDice: CharacterTypes.HitDiceType): CharacterTypes.HitDiceType => {
+// export const addNewHitDice = async (characterId: number, newHitDice: CharacterTypes.HitDieType): CharacterTypes.HitDiceType => {
 
 // };
 
-// export const addNewHitDice = (characterId: number, newHitDice: CharacterTypes.HitDieType): CharacterTypes.HitDiceType => {
-
-// };
-
-// export const deleteHitDice = (hitDiceId: number): CharacterTypes.HitDiceType => {
+// export const deleteHitDice = async (hitDiceId: number): CharacterTypes.HitDiceType => {
 
 // };
 
@@ -109,7 +111,7 @@ module.exports = {
   getAllCharactersForUser,
   // createCharacter,
   // updateCharacterById,
-  // updateDeathSaves,
+  updateDeathSaves,
   // updateKnownSpells,
   // updateKnownSpellsAtLevel,
   // updateAbilityScores,

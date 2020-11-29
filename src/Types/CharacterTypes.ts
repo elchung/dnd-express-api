@@ -77,12 +77,10 @@ export interface SettingsType {
   ability_score_on_top: boolean;
 }
 
-export interface DeathSaveType {
+export interface DeathSavesType {
     successes: number;
     failures: number;
 }
-
-export interface DeathSavesType extends Array<DeathSaveType>{}
 
 export interface KnownSpellsType {
     zero: string[];

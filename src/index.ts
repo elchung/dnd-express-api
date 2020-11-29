@@ -18,40 +18,46 @@ app.use(bodyParser.urlencoded({
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 
-app.get('/characters/:characterId', async (request, response) => {
+app.get('/characters/:characterId', async (request, response) => { // todo might want to try catch and return error
   const res = await CharacterQueries.getCharacterById(request.params.characterId);
   return response.status(200).send(res);
 });
 
-app.get('/characters/user/:username', async (request, response) => {
+app.get('/characters/user/:username', async (request, response) => { // todo might want to try catch and return error
   const res = await CharacterQueries.getAllCharactersForUser(request.params.username);
   return response.status(200).send(res);
 });
 
-// app.post('/characters/', (request, response) => {
+// app.post('/characters/', async (request, response) => {
 //   createCharacter
 // });
 
-// app.put('/characters/:character_id', (request, response) => {
+// app.put('/characters/:characterId', (request, response) => {
 //   updateCharacterById
 // });
 
-// app.put('/characters/:character_id/death_save', (request, response) => {
-//   updateDeathSaves
-//   //{successes: int, failures: int}
-// });
+app.put('/characters/:characterId/death_saves', async (request, response) => {
+  try {
+    const res = await CharacterQueries.updateDeathSaves(request.params.characterId, request.body.successes, request.body.failures);
+    return response.status(200).send(res);
+  } catch (err) {
+    console.error(err.err);
+    return response.status(400).send(err);
+  }
+  
+});
 
-// app.put('/characters/:character_id/known_spells', (request, response) => {
+// app.put('/characters/:characterId/known_spells', async (request, response) => {
 //   updateKnownSpells
 //   //{zero through nine, list of strings}
 // });
 
-// app.put('/characters/:character_id/known_spells/:level', (request, response) => {
+// app.put('/characters/:characterId/known_spells/:level', async (request, response) => {
 //   updateKnownSpellsAtLevel
 //   //{zero through nine, list of strings}
 // });
 
-// app.put('/characters/:character_id/ability_scores', (request, response) => {
+// app.put('/characters/:characterId/ability_scores', async (request, response) => {
 //   updateAbilityScores
 //     // strength 	 INT,
 //     // dexterity    INT,
@@ -61,29 +67,29 @@ app.get('/characters/user/:username', async (request, response) => {
 //     // charisma     INT
 // });
 
-// app.post('/characters/:character_id/features_and_traits', (request, response) => {  // todo might want to consider bulk update for this too
+// app.post('/characters/:characterId/features_and_traits', async (request, response) => {  // todo might want to consider bulk update for this too
 //   addNewFeatureOrTrait
 //     // title TEXT not null DEFAULT '',
 //     // body  TEXT not null default ''
 // });
 
-// app.put('/characters/:character_id/features_and_traits/:id', (request, response) => {
+// app.put('/characters/:characterId/features_and_traits/:id', async (request, response) => {
 //   updateFeatureOrTrait
 //     // title TEXT not null DEFAULT '',
 //     // body  TEXT not null default ''
 // });
 
-// app.delete('/characters/:character_id/features_and_traits/:id', (request, response) => {
+// app.delete('/characters/:characterId/features_and_traits/:id', async (request, response) => {
 //   deleteFeatureOrTrait
 // })
 
-// app.put('/characters/:character_id/spell_slots/:level', (request, response) => {
+// app.put('/characters/:characterId/spell_slots/:level', async (request, response) => {
 //   updateSpellSlot
 //   // max
 //   // used
 // });
 
-// app.put('/characters/:character_id/treasure/money', (request, response) => {
+// app.put('/characters/:characterId/treasure/money', async (request, response) => {
 //   updateMoney
 //   // copper
 //   // silver
@@ -91,7 +97,7 @@ app.get('/characters/user/:username', async (request, response) => {
 //   // electrum
 // });
 
-// app.put('/characters/:character_id/treasure/items/:id', (request, response) => {
+// app.put('/characters/:characterId/treasure/items/:id', async (request, response) => {
 //   updateTreasureItem
 //   // "treasure": {
 //   //   "type": "array",
@@ -110,7 +116,7 @@ app.get('/characters/user/:username', async (request, response) => {
 //   // }
 // });
 
-// app.post('/characters/:character_id/treasure/items', (request, response) => {
+// app.post('/characters/:characterId/treasure/items', async (request, response) => {
 //   addNewTreasureItem
 //   // "treasure": {
 //   //   "type": "array",
@@ -130,23 +136,23 @@ app.get('/characters/user/:username', async (request, response) => {
 
 // });
 
-// app.delete('/characters/:character_id/treasure/items/:id', (request, response) => {
+// app.delete('/characters/:characterId/treasure/items/:id', async (request, response) => {
 //   deleteTreasureItem
 // });
 
-// app.put('/characters/:character_id/treasure/items/:id', (request, response) => {
+// app.put('/characters/:characterId/treasure/items/:id', async (request, response) => {
 //   updateHitDice
 // });
 
-// app.put('/characters/:character_id/settings', (request, response) => {
+// app.put('/characters/:characterId/settings', async (request, response) => {
 //   updateCharacterSettings
 // });
 
-// app.post('/characters/:character_id/hit_dice', (request, response) => {
+// app.post('/characters/:characterId/hit_dice', async (request, response) => {
 //   addNewHitDice
 // });
 
-// app.delete('/characters/:character_id/hit_dice/:id', (request, response) => {
+// app.delete('/characters/:characterId/hit_dice/:id', async (request, response) => {
 //   deleteHitDice
 // });
 
