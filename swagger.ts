@@ -105,7 +105,7 @@ export default {
         }
       }
     },
-    "/characters/{characterId}/knownSpells": {
+    "/characters/{characterId}/known_spells": {
       "parameters": [
         {
           "name": "character_id",
@@ -122,7 +122,7 @@ export default {
           {
             "name": "known_spells",
             "in": "body",
-            "description": "new number of successful and failed death saves.",
+            "description": "New list of known spells for all levels.",
             "schema": {
               "$ref": "#/definitions/KnownSpellsType"
             }
@@ -162,7 +162,7 @@ export default {
           {
             "name": "known_spells_at_level",
             "in": "body",
-            "description": "Updated known Spells for a particular level.",
+            "description": "Updated known Spells for a specific level.",
             "schema": {
               "$ref": "#/definitions/KnownSpellsAtLevelType"
             }

@@ -41,16 +41,21 @@ app.put('/characters/:characterId/death_saves', async (request, response) => {
     const res = await CharacterQueries.updateDeathSaves(request.params.characterId, request.body.successes, request.body.failures);
     return response.status(200).send(res);
   } catch (err) {
-    console.error(err.err);
+    console.error(err.error);
     return response.status(400).send(err);
   }
-  
 });
 
-// app.put('/characters/:characterId/known_spells', async (request, response) => {
-//   updateKnownSpells
-//   //{zero through nine, list of strings}
-// });
+app.put('/characters/:characterId/known_spells', async (request, response) => {
+  //response.body is an array of arrays of stirngs, index = spell level
+  try {
+    const res = await CharacterQueries.updateKnownSpells(request.params.characterId, request.body);
+    return response.status(200).send(res);
+  } catch (err) {
+    console.error(err.error);
+    return response.status(400).send(err);
+  }
+});
 
 // app.put('/characters/:characterId/known_spells/:level', async (request, response) => {
 //   updateKnownSpellsAtLevel

@@ -1,3 +1,4 @@
+import * as CharacterTypes from '../../Types/CharacterTypes';
 export const getCharacterByIdQuery = (characterId: string): string => 
     "select " + 
     "json_build_object( " +
@@ -205,7 +206,30 @@ export const updateDeathSavesQuery = (characterId: string, successes: string, fa
     `WHERE cd.character_id = ${characterId} and cd.character_death_save_id = character_death_saves.id ` +
     "RETURNING character_death_saves.successes, character_death_saves.failures;";
 
-
+export const updateKnownSpellsQuery = (characterId: string, newKnownSpells: CharacterTypes.KnownSpellsType): string =>
+    "UPDATE character_known_spells " +
+    `SET zero='{${newKnownSpells.zero.join()}}', ` +
+        `one='{${newKnownSpells.one.join()}', ` +
+        `two='{${newKnownSpells.two.join()}', ` +
+        `three='{${newKnownSpells.three.join()}', ` +
+        `four='{${newKnownSpells.four.join()}', ` +
+        `five='{${newKnownSpells.five.join()}', ` +
+        `six='{${newKnownSpells.six.join()}', ` +
+        `seven='{${newKnownSpells.seven.join()}', ` +
+        `eight='{${newKnownSpells.eight.join()}', ` +
+        `nine='{${newKnownSpells.nine.join()}' ` +
+    "FROM character_data cd " +
+    `WHERE cd.character_id = ${characterId} and cd.character_known_spells_id = character_known_spells.id ` +
+    "RETURNING character_known_spells.zero, " +
+        "character_known_spells.one, " +
+        "character_known_spells.two, " +
+        "character_known_spells.three, " +
+        "character_known_spells.four, " +
+        "character_known_spells.five, " +
+        "character_known_spells.six, " +
+        "character_known_spells.seven, " +
+        "character_known_spells.eight, " +
+        "character_known_spells.nine; ";
 
 
 

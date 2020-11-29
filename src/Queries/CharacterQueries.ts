@@ -5,6 +5,7 @@ import {
   getCharacterByIdQuery,
   getCharacterNamesByUserIdQuery,
   updateDeathSavesQuery,
+  updateKnownSpellsQuery
 } from './PostgresQueryStrings/PostgresCharacterQueries';
 
 if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME || !process.env.DB_USER_PASSWORD || !process.env.DB_PORT) {
@@ -45,63 +46,66 @@ export const updateDeathSaves = async (characterId: string, successes: string, f
   return result.rows[0];
 };
 
-// export const updateKnownSpells = async (characterId: number, newKnownSpells: CharacterTypes.KnownSpellsType): CharacterTypes.KnownSpellsType => {
+export const updateKnownSpells = async (characterId: string, newKnownSpells: CharacterTypes.KnownSpellsType): Promise<CharacterTypes.KnownSpellsType> => {
+  console.log(newKnownSpells);
+  const result = await pool.query(updateKnownSpellsQuery(characterId, newKnownSpells)); 
+  console.log(result.rows[0]);
+  return result.rows[0];
+};
+
+// export const updateKnownSpellsAtLevel = async (characterId: string, level: string, newKnownSpellList: string[]): Promise<string[]> => {
 
 // };
 
-// export const updateKnownSpellsAtLevel = async (characterId: number, level: number, newKnownSpellList: string[]): string[] => {
+// export const updateAbilityScores = async (characterId: string, newAbilityScores: CharacterTypes.AbilityScoresType): Promise<CharacterTypes.AbilityScoresType> => {
 
 // };
 
-// export const updateAbilityScores = async (characterId: number, newAbilityScores: CharacterTypes.AbilityScoresType): CharacterTypes.AbilityScoresType => {
+// export const addNewFeatureOrTrait = async (characterId: string, newFeature: CharacterTypes.FeatureAndTraitsDescriptionType): Promise<CharacterTypes.FeatureAndTraitsDescriptionType> => {
 
 // };
 
-// export const addNewFeatureOrTrait = async (characterId: number, newFeature: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
+// export const updateFeatureOrTrait = async (characterId: string, featureId: string, newBody: CharacterTypes.FeatureAndTraitsDescriptionType): Promise<CharacterTypes.FeatureAndTraitsDescriptionType> => {
 
 // };
 
-// export const updateFeatureOrTrait = async (characterId: number, featureId: number, newBody: CharacterTypes.FeatureAndTraitsDescriptionType): CharacterTypes.FeatureAndTraitsDescriptionType => {
+// export const deleteFeatureOrTrait = async (characterId: string, featureId: string): Promise<CharacterTypes.FeatureAndTraitsDescriptionType> => { //might just want featureId
 
 // };
 
-// export const deleteFeatureOrTrait = async (characterId: number, featureId: number): CharacterTypes.FeatureAndTraitsDescriptionType => { //might just want featureId
+// export const updateSpellSlot = async (characterId: string, level: string, newSpellSlot: CharacterTypes.SpellSlotsAtLevelType): Promise<CharacterTypes.SpellSlotsAtLevelType> => {
 
 // };
 
-// export const updateSpellSlot = async (characterId: number, level: number, newSpellSlot: CharacterTypes.SpellSlotsAtLevelType): CharacterTypes.SpellSlotsAtLevelType => {
+// export const updateMoney = async (characterId: string, newMoney: CharacterTypes.TreasureMoneyType): Promise<CharacterTypes.TreasureMoneyType> => {
 
 // };
 
-// export const updateMoney = async (characterId: number, newMoney: CharacterTypes.TreasureMoneyType): CharacterTypes.TreasureMoneyType => {
+// export const updateTreasureItem = async (characterId: string, treasureId: string, newTreasure: CharacterTypes.TreasureItemType): Promise<CharacterTypes.TreasureItemType> => {
 
 // };
 
-// export const updateTreasureItem = async (characterId: number, treasureId: number, newTreasure: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
+// export const addNewTreasureItem = async (characterId: string, treasureItem: CharacterTypes.TreasureItemType): Promise<CharacterTypes.TreasureItemType> => {
 
 // };
 
-// export const addNewTreasureItem = async (characterId: number, treasureItem: CharacterTypes.TreasureItemType): CharacterTypes.TreasureItemType => {
+// export const deleteTreasureItem = async (treasureId: string): Promise<boolean> => { // return boolean???
 
 // };
 
-// export const deleteTreasureItem = async (treasureId: number): boolean => { // return boolean???
+// export const updateCharacterSettings = async (characterId: string, newSettings: CharacterTypes.CharacterSettingsType): Promise<CharacterTypes.CharacterSettingsType> => {
 
 // };
 
-// export const updateCharacterSettings = async (characterId: number, newSettings: CharacterTypes.CharacterSettingsType): CharacterTypes.CharacterSettingsType => {
+// export const updateHitDice = async (characterId: string, hitDiceId: string, newHitDice: CharacterTypes.HitDiceType): Promise<CharacterTypes.HitDiceType> => {
 
 // };
 
-// export const updateHitDice = async (characterId: number, hitDiceId: number, newHitDice: CharacterTypes.HitDiceType): CharacterTypes.HitDiceType => {
+// export const addNewHitDice = async (characterId: string, newHitDice: CharacterTypes.HitDieType): Promise<CharacterTypes.HitDiceType> => {
 
 // };
 
-// export const addNewHitDice = async (characterId: number, newHitDice: CharacterTypes.HitDieType): CharacterTypes.HitDiceType => {
-
-// };
-
-// export const deleteHitDice = async (hitDiceId: number): CharacterTypes.HitDiceType => {
+// export const deleteHitDice = async (hitDiceId: string): Promise<CharacterTypes.HitDiceType> => {
 
 // };
 
