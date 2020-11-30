@@ -28,23 +28,26 @@ CREATE TABLE character_known_spells (
 	nine  TEXT[]
 );
 
-CREATE TABLE character_spell_slot_data (
-    id serial primary key,
-    max INT NOT NULL DEFAULT 0,
-    used INT NOT NULL DEFAULT 0
-);
-
 CREATE TABLE character_spell_slots (
     id serial primary key,
-    one_id INT not null references character_spell_slot_data(id) on delete cascade,
-    two_id INT not null references character_spell_slot_data(id) on delete cascade,
-    three_id INT not null references character_spell_slot_data(id) on delete cascade,
-    four_id INT not null references character_spell_slot_data(id) on delete cascade,
-    five_id INT not null references character_spell_slot_data(id) on delete cascade,
-    six_id INT not null references character_spell_slot_data(id) on delete cascade,
-    seven_id INT not null references character_spell_slot_data(id) on delete cascade,
-    eight_id INT not null references character_spell_slot_data(id) on delete cascade,
-    nine_id INT not null references character_spell_slot_data(id) on delete cascade
+    one_max INT,
+    one_used INT,
+    two_max INT,
+    two_used INT,
+    three_max INT,
+    three_used INT,
+    four_max INT,
+    four_used INT,
+    five_max INT,
+    five_used INT,
+    six_max INT,
+    six_used INT,
+    seven_max INT,
+    seven_used INT,
+    eight_max INT,
+    eight_used INT,
+    nine_max INT,
+    nine_used INT
 );
 
 CREATE TABLE character_treasure_money (
@@ -114,9 +117,9 @@ CREATE TABLE character_data (
 
 CREATE TABLE character_hit_dice (
 	id SERIAL primary key,
-	num_dice  INT not null,
-	dice_type INT not null,
-	num_used  INT not null,
+	num_dice  INT,
+	dice_type INT,
+	num_used  INT,
 	character_id INT not null references character_data(character_id) on delete cascade
 );
 
@@ -124,6 +127,6 @@ CREATE TABLE character_features_and_traits (
 	id serial primary key,
 	character_id INT not null references character_data(character_id),
     index INT not null,
-	title TEXT not null DEFAULT '',
-	body  TEXT not null DEFAULT ''
+	title TEXT,
+	body  TEXT
 );

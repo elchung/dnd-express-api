@@ -18,7 +18,9 @@ import {
   updateSpellSlotAtLevelQuery,
   updateMoneyQuery,
   createFeatureOrTraitQuery,
+  bulkCreateFeatureOrTraitQuery,
   updateFeaturesOrTraitsQuery,
+  bulkUpdateFeaturesOrTraitsQuery,
   deleteFeatureOrTraitQuery,
   getCharIdForFat,
 } from './Queries/PostgresQueryStrings/PostgresCharacterQueries';
@@ -27,6 +29,8 @@ if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME ||
   throw new Error("Missing db variables.");
 }
 
+//TODO pull character routes into separate route js file
+//TODO add ownership checking for updating features/traits
 // keep...for now..
 const pool = new Pool({
   user: process.env.DB_USER_NAME,
@@ -106,7 +110,6 @@ app.put('/characters/:characterId/ability_scores', async (request, response) => 
 
 app.post('/characters/:characterId/features_and_traits', async (request, response) => {
   try {
-    console.error('query not working yet');
     const result = await pool.query(createFeatureOrTraitQuery(request.params.characterId, request.body));
     return response.status(200).send(result.rows[0]);
   } catch (err) {
@@ -115,11 +118,31 @@ app.post('/characters/:characterId/features_and_traits', async (request, respons
   }
 });
 
-//plural, cna user either updateFeaturesOrTraitsQuery or bulkUpdateFeaturesOrTraitsQuery (not implemented yet)
+app.post('/characters/:characterId/features_and_traits/bulk', async (request, response) => {
+  try {
+    const result = await pool.query(bulkCreateFeatureOrTraitQuery(request.params.characterId, request.body));
+    return response.status(200).send(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    return response.status(400).send(err);
+  }
+});
+
 app.put('/characters/:characterId/features_and_traits/', async (request, response) => {
   try {
-    console.error('query not working yet');
-    const result = await pool.query(updateFeaturesOrTraitsQuery(request.params.characterId, request.body));
+    //TODO get featureortraits object, verify it belongs to characterid
+    const result = await pool.query(updateFeaturesOrTraitsQuery(request.body));
+    return response.status(200).send(result.rows[0].json_agg);
+  } catch (err) {
+    console.error(err);
+    return response.status(400).send(err);
+  }
+});
+
+app.put('/characters/:characterId/features_and_traits/bulk', async (request, response) => {
+  try {
+    //TODO get featureortraits objects, verify it belongs to characterid
+    const result = await pool.query(bulkUpdateFeaturesOrTraitsQuery(request.params.characterId, request.body));
     return response.status(200).send(result.rows[0].json_agg);
   } catch (err) {
     console.error(err);
