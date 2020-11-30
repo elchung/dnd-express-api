@@ -5,8 +5,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.js';
-import * as CharacterQueries from './Queries/CharacterQueries';
-import * as CharacterTypes from './Types/CharacterTypes';
 import cors from 'cors';
 import { Pool } from 'pg';
 import {
@@ -16,12 +14,13 @@ import {
   updateKnownSpellsQuery,
   updateKnownSpellsAtLevelQuery,
   updateAbilityScoresQuery,
-  updateSpellSlotsQuery,
+  bulkUpdateSpellSlotsQuery,
   updateSpellSlotAtLevelQuery,
   updateMoneyQuery,
   createFeatureOrTraitQuery,
-  updateFeaturesOrTraits,
-  deleteFeatureOrTrait,
+  updateFeaturesOrTraitsQuery,
+  deleteFeatureOrTraitQuery,
+  getCharIdForFat,
 } from './Queries/PostgresQueryStrings/PostgresCharacterQueries';
 
 if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME || !process.env.DB_USER_PASSWORD || !process.env.DB_PORT) {
@@ -34,7 +33,6 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_USER_PASSWORD,
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   port: +process.env.DB_PORT,
 });
 
@@ -77,7 +75,7 @@ app.put('/characters/:characterId/death_saves', async (request, response) => {
 });
 
 app.put('/characters/:characterId/known_spells', async (request, response) => {
-  try {  
+  try {
     const result = await pool.query(updateKnownSpellsQuery(request.params.characterId, request.body));
     return response.status(200).send(result.rows[0]);
   } catch (err) {
@@ -106,9 +104,9 @@ app.put('/characters/:characterId/ability_scores', async (request, response) => 
   }
 });
 
-app.post('/characters/:characterId/features_and_traits', async (request, response) => { 
+app.post('/characters/:characterId/features_and_traits', async (request, response) => {
   try {
-    console.error('query not working yet');  
+    console.error('query not working yet');
     const result = await pool.query(createFeatureOrTraitQuery(request.params.characterId, request.body));
     return response.status(200).send(result.rows[0]);
   } catch (err) {
@@ -117,11 +115,11 @@ app.post('/characters/:characterId/features_and_traits', async (request, respons
   }
 });
 
-//plural
+//plural, cna user either updateFeaturesOrTraitsQuery or bulkUpdateFeaturesOrTraitsQuery (not implemented yet)
 app.put('/characters/:characterId/features_and_traits/', async (request, response) => {
   try {
-    console.error('query not working yet');  
-    const result = await pool.query(updateFeaturesOrTraits(request.params.characterId, request.body));
+    console.error('query not working yet');
+    const result = await pool.query(updateFeaturesOrTraitsQuery(request.params.characterId, request.body));
     return response.status(200).send(result.rows[0].json_agg);
   } catch (err) {
     console.error(err);
@@ -129,10 +127,12 @@ app.put('/characters/:characterId/features_and_traits/', async (request, respons
   }
 });
 
-app.delete('/characters/:characterId/features_and_traits/', async (request, response) => {
+app.delete('/characters/:characterId/features_and_traits/:fatId', async (request, response) => {
   try {
-    console.error('query not working yet');  
-    const result = await pool.query(deleteFeatureOrTrait(request.params.characterId, request.body));
+    const associatedCharId = await pool.query(getCharIdForFat(request.params.fatId));
+    if (associatedCharId.rows[0] !== request.params.characterId) throw new Error("characterId not accociated with fatId");
+
+    const result = await pool.query(deleteFeatureOrTraitQuery(request.params.fatId));
     return response.status(200).send(result.rows[0]);
   } catch (err) {
     console.error(err);
@@ -142,8 +142,8 @@ app.delete('/characters/:characterId/features_and_traits/', async (request, resp
 
 app.put('/characters/:characterId/spell_slots/', async (request, response) => {  // TODO need to figure this out
   try {
-    console.error('query not working yet');  
-    const result = await pool.query(updateSpellSlotsQuery(request.params.characterId, request.body));
+    console.error('query not working yet');
+    const result = await pool.query(bulkUpdateSpellSlotsQuery(request.params.characterId, request.body));
     return response.status(200).send(result.rows[0]);
   } catch (err) {
     console.error(err);

@@ -89,14 +89,15 @@ export interface KnownSpellsType {
     nine: string[];
 }
 
-export interface FeatureAndTraitsDescriptionType {
+export interface FeatureAndTraitsType {
+  character_id?: string;
   index: string;
   title: string;
   body: string;
-  id?: number;
+  id: number;
 }
 
-export interface FeatureAndTraitDescriptionsType extends Array<FeatureAndTraitsDescriptionType>{}
+export interface BulkFeaturesAndTraitsType extends Array<FeatureAndTraitsType>{}
 
 export interface SpellSlotAtLevelType {
     max: number;
@@ -188,7 +189,7 @@ export interface CharacterDataType {
     [key: string]: SpellSlotsType;
   };
   features_and_traits: {
-    [key: string]: FeatureAndTraitDescriptionsType;
+    [key: string]: BulkFeaturesAndTraitsType;
   };
   treasure: {
     [key: string]: TreasureType;

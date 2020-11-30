@@ -29,7 +29,7 @@ export const getCharacterByIdQuery = (characterId: string): string =>
     "'skill_expertise', cd.skill_expertise, " +
     "'general_proficiencies', cd.general_proficiencies, " +
     "'known_languages', cd.known_languages, " +
-    "'tool_and_other_proficiencie', cd.tool_and_other_proficiencies, " +
+    "'tool_and_other_proficiencies', cd.tool_and_other_proficiencies, " +
     "'prepared_spells', cd.prepared_spells, " +
     "'ability_scores', json_build_object( " +
         "'id', ability_scores.id, " +
@@ -137,8 +137,9 @@ export const getCharacterByIdQuery = (characterId: string): string =>
     "), " +
     "'features_and_traits', json_agg( " +
         "json_build_object( " +
-        "'title', features_and_traits_description.title, " +
-        "'body', features_and_traits_description.body " +
+        "'title', features_and_traits.title, " +
+        "'body', features_and_traits.body " +
+        "'index', features_and_traits.index " +
         ") " +
     "), " +
     "'_settings', json_build_object( " +
@@ -166,7 +167,6 @@ export const getCharacterByIdQuery = (characterId: string): string =>
     "inner join character_spell_slot_data spell_slot_data_nine on spell_slot_data_nine.id = spell_slots.nine_id and spell_slots.id = cd.character_spell_slots_id " +
     "inner join character_treasure_items treasure_items on treasure_items.treasure_id = treasure_table.id " +
     "inner join character_features_and_traits features_and_traits on features_and_traits.character_id = cd.character_id " +
-    "inner join character_features_and_traits_description features_and_traits_description on features_and_traits_description.id = features_and_traits.character_features_and_traits_description_id and features_and_traits.character_id = cd.character_id " +
     `WHERE cd.character_id = ${characterId} ` +
     "GROUP BY  " +
     "cd.character_id,  " +
@@ -259,13 +259,11 @@ export const updateAbilityScoresQuery = (characterId: string, newAbilityScores: 
         "character_ability_scores.wisdom, " +
         "character_ability_scores.charisma; ";
 
-//TODO make this work
-export const updateSpellSlotsQuery = (characterId: string, newSpellSlots: CharacterTypes.SpellSlotsType): string => 
+//TODO make this work, bulk insert
+export const bulkUpdateSpellSlotsQuery = (characterId: string, newSpellSlots: CharacterTypes.SpellSlotsType): string =>
     "UPDATE character_spell_slot_data; " ;
 
-
-
-export const updateSpellSlotAtLevelQuery = (characterId: string, level: string, newSpellSlots: CharacterTypes.SpellSlotAtLevelType): string => 
+export const updateSpellSlotAtLevelQuery = (characterId: string, level: string, newSpellSlots: CharacterTypes.SpellSlotAtLevelType): string =>
     "UPDATE character_spell_slot_data " +
     `SET max=${newSpellSlots.max}, used=${newSpellSlots.used} ` +
     "FROM character_data cd, character_spell_slots spell_slots " +
@@ -274,32 +272,36 @@ export const updateSpellSlotAtLevelQuery = (characterId: string, level: string, 
         `AND spell_slots.${numToIdName[+level]}=character_spell_slot_data.id ` +
     "RETURNING character_spell_slot_data.max, character_spell_slot_data.used;";
 
-export const updateMoneyQuery = (characterId: string, newMoney: CharacterTypes.TreasureMoneyType): string => 
+export const updateMoneyQuery = (characterId: string, newMoney: CharacterTypes.TreasureMoneyType): string =>
     "UPDATE character_treasure_money " +
-    `SET gold=${newMoney.gold}, silver=${newMoney.silver}, electrum=${newMoney.electrum}, copper=${newMoney.copper} ` + 
+    `SET gold=${newMoney.gold}, silver=${newMoney.silver}, electrum=${newMoney.electrum}, copper=${newMoney.copper} ` +
     "FROM character_data cd, character_treasure treasure " +
     `WHERE cd.character_id=${characterId} ` +
         "AND cd.character_treasure_id=treasure.id " +
         "AND treasure.money_id=character_treasure_money.id " +
     "RETURNING character_treasure_money.gold, character_treasure_money.silver, character_treasure_money.electrum, character_treasure_money.copper;";
 
-export const createFeatureOrTraitQuery = (characterId: string, newItem: CharacterTypes.FeatureAndTraitsDescriptionType): string =>
-    "WITH character_features_and_traits_description_query as ( " +
-        "INSERT INTO character_features_and_traits_description (index, title, body) " +
-            `VALUES (${newItem.index}, '${newItem.title}', '${newItem.body}') ` +
-        "RETURNING id " +
-    ") " +
-    "INSERT INTO character_features_and_traits ( " +
-        "character_id,  " +
-        "character_features_and_traits_description_id " +
-	") " +
-    "VALUES ( " +
-        `${characterId} ` +
-        "(SELECT id from character_features_and_traits_description_query) " +
-    ");" ;
+export const createFeatureOrTraitQuery = (characterId: string, newItem: CharacterTypes.FeatureAndTraitsType): string =>
+  "INSERT INTO character_features_and_traits (character_id, index, title, body) " +
+  `VALUES (${characterId}, ${newItem.index}, ${newItem.title}, ${newItem.body}) ` +
+  "RETURNING character_id, index, title, body;";
 
-export const updateFeaturesOrTraits
+export const updateFeaturesOrTraitsQuery = (updatedItem: CharacterTypes.FeatureAndTraitsType): string =>
+  "UPDATE character_features_and_traits cfat" +
+  `SET index=${updatedItem.index}, title=${updatedItem.title}, body=${updatedItem.body} ` +
+  `WHERE cfat.id=${updatedItem.id};`;
 
-export const deleteFeatureOrTrait
+//TODO make this work, bulk insert
+export const bulkUpdateFeaturesOrTraitsQuery = (characterId: string, updatedItems: CharacterTypes.BulkFeaturesAndTraitsType): string =>
+  '';
 
+
+export const getCharIdForFat = (itemId: string): string =>
+  "SELECT cfat.character_id " +
+  "FROM character_features_and_traits cfat" +
+  `WHERE cfat.id=${itemId};`;
+
+export const deleteFeatureOrTraitQuery = (itemId: string): string =>
+  "DELETE from character_features_and_traits cfat" +
+  `WHERE cfat.id=${itemId}; `;
 

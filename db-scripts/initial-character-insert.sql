@@ -141,15 +141,13 @@ WITH character_ability_scores_query as (
             (SELECT id from character_sheet_settings_query) --character_sheet_settings_id
         )
     RETURNING character_id
-), character_features_and_traits_description_query as (
-    INSERT INTO character_features_and_traits_description (index, title, body)
-        VALUES (0, 'Alert', 'You can''t be surprised while conscious. You have a +5 bonus to initiative rolls. Other creatures also don''t gain advantage on attack rolls against you as a result of being hidden from you.')
-    RETURNING id
 ), character_features_and_traits_query as (
-  INSERT INTO character_features_and_traits (character_id, character_features_and_traits_description_id)
+  INSERT INTO character_features_and_traits (character_id, index, title, body)
       VALUES (
           (SELECT character_id from character_data_query),
-          (SELECT id from character_features_and_traits_description_query)
+          0,
+          'Alert',
+        'You can''t be surprised while conscious. You have a +5 bonus to initiative rolls. Other creatures also don''t gain advantage on attack rolls against you as a result of being hidden from you.'
       )
 )
 INSERT INTO character_hit_dice (num_dice, dice_type, num_used, character_id)

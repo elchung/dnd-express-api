@@ -28,13 +28,6 @@ CREATE TABLE character_known_spells (
 	nine  TEXT[]
 );
 
-CREATE TABLE character_features_and_traits_description (
-	id serial primary key,
-	index INT not null,
-	title TEXT not null DEFAULT '',
-	body  TEXT not null DEFAULT ''
-);
-
 CREATE TABLE character_spell_slot_data (
     id serial primary key,
     max INT NOT NULL DEFAULT 0,
@@ -130,5 +123,7 @@ CREATE TABLE character_hit_dice (
 CREATE TABLE character_features_and_traits (
 	id serial primary key,
 	character_id INT not null references character_data(character_id),
-	character_features_and_traits_description_id INT references character_features_and_traits_description(id) on delete cascade
+    index INT not null,
+	title TEXT not null DEFAULT '',
+	body  TEXT not null DEFAULT ''
 );

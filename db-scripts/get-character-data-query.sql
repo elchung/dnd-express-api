@@ -119,7 +119,7 @@ select
                         'bookmarked', treasure_items.bookmarked,
                         'magical', treasure_items.magical,
                         'description_text', treasure_items.description_text
-                    ) 
+                    )
                 ),
                 'money', json_build_object(
                     'id', money_table.id,
@@ -131,8 +131,9 @@ select
             ),
             'features_and_traits', json_agg(
                 json_build_object(
-                    'title', features_and_traits_description.title,
-                    'body', features_and_traits_description.body
+                    'title', features_and_traits.title,
+                    'body', features_and_traits.body,
+                    'index', features_and_traits.index
                 )
             ),
             '_settings', json_build_object(
@@ -160,14 +161,13 @@ from character_data cd
     inner join character_spell_slot_data spell_slot_data_nine on spell_slot_data_nine.id = spell_slots.nine_id and spell_slots.id = cd.character_spell_slots_id
     inner join character_treasure_items treasure_items on treasure_items.treasure_id = treasure_table.id
     inner join character_features_and_traits features_and_traits on features_and_traits.character_id = cd.character_id
-    inner join character_features_and_traits_description features_and_traits_description on features_and_traits_description.id = features_and_traits.character_features_and_traits_description_id and features_and_traits.character_id = cd.character_id
 WHERE cd.character_id = 1
-GROUP BY 
-	cd.character_id, 
-	ability_scores.id, 
-	death_saves.id, 
-	known_spells.id, 
-	spell_slots.id, 
+GROUP BY
+	cd.character_id,
+	ability_scores.id,
+	death_saves.id,
+	known_spells.id,
+	spell_slots.id,
 	spell_slot_data_one.id,
 	spell_slot_data_two.id,
 	spell_slot_data_three.id,
@@ -180,5 +180,5 @@ GROUP BY
 	treasure_items.id,
 	money_table.id,
 	treasure_table.id,
-    hit_die.id,
+    hit_dice.id,
 	settings.id;

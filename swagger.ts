@@ -78,7 +78,7 @@ export default {
         }
       }
     },
-    "/characters/{characterId}/death_saves" : {
+    "/characters/{characterId}/death_saves": {
       "parameters": [
         {
           "name": "characterId",
@@ -264,31 +264,6 @@ export default {
           }
         }
       },
-      "delete": {
-        "summary": "Add a new feature or trait given character",
-        "tags": ["Character"],
-        "parameters": [
-          {
-            "name": "feature_or_trait",
-            "in": "body",
-            "description": "Deleted feature or trait.",
-            "schema": {
-              "$ref": "#/definitions/FeaturesAndTraitsType"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Deleted feature or trait.",
-            "schema": {
-              "$ref": "#/definitions/FeaturesAndTraitsType"
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
       "post": {
         "summary": "Add a new feature or trait given character",
         "tags": ["Character"],
@@ -314,6 +289,39 @@ export default {
           }
         }
       }
+    },
+    "/characters/{characterId}/features_and_traits/{fatId}": {
+      "parameters": [
+        {
+          "name": "characterId",
+          "in": "path",
+          "required": true,
+          "description": "ID of character to associated with feature or trait",
+          "type": "integer"
+        },
+        {
+          "name": "fatId",
+          "in": "path",
+          "required": true,
+          "description": "ID of feature and trait to delete",
+          "type": "integer"
+        }
+      ],
+      "delete": {
+        "summary": "Delete a feature or trait given character",
+        "tags": ["Character"],
+        "responses": {
+          "200": {
+            "description": "Deleted feature or trait.",
+            "schema": {
+              "$ref": "#/definitions/FeaturesAndTraitsType"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
     },
     "/characters/{characterId}/spell_slots/{level}": {
       "parameters": [
