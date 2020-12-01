@@ -35,7 +35,7 @@ export interface SpellSlotsAtLevelType {
 }
 
 export interface SpellSlotsType {
-  id: number;
+  id?: number;
   one_max?: number;
   one_used?: number;
   two_max?: number;
@@ -54,6 +54,7 @@ export interface SpellSlotsType {
   eight_used?: number;
   nine_max?: number;
   nine_used?: number;
+  [key: string]: number|undefined;
 }
 
 export interface SettingsType {
@@ -93,10 +94,11 @@ export interface TreasureItemType {
   name: string;
   id?: number;
   quantity: number;
-  weight_in_lbs: number;
+  weight_in_lbs?: number;
   bookmarked: boolean;
   magical: boolean;
-  description_text: string;
+  description_text?: string;
+  [key: string]: string|number|boolean|undefined;
 }
 
 export interface TreasureItemsType extends Array<TreasureItemType>{}

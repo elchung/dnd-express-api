@@ -68,42 +68,24 @@ export const getCharacterByIdQuery = (characterId: string): string =>
       ),
       'spell_slots', json_build_object(
         'id', spell_slots.id,
-        'one', json_build_object(
-          'max', spell_slots.one_max,
-          'used', spell_slots.one_used
-        ),
-        'two', json_build_object(
-          'max', spell_slots.two_max,
-          'used', spell_slots.two_used
-        ),
-        'three', json_build_object(
-          'max', spell_slots.three_max,
-          'used', spell_slots.three_used
-        ),
-        'four', json_build_object(
-          'max', spell_slots.four_max,
-          'used', spell_slots.four_used
-        ),
-        'five', json_build_object(
-          'max', spell_slots.five_max,
-          'used', spell_slots.five_used
-        ),
-        'six', json_build_object(
-          'max', spell_slots.six_max,
-          'used', spell_slots.six_used
-        ),
-        'seven', json_build_object(
-          'max', spell_slots.seven_max,
-          'used', spell_slots.seven_used
-        ),
-        'eight', json_build_object(
-          'max', spell_slots.eight_max,
-          'used', spell_slots.eight_used
-        ),
-        'nine', json_build_object(
-          'max', spell_slots.nine_max,
-          'used', spell_slots.nine_used
-        )
+        'one_max', spell_slots.one_max,
+        'one_used', spell_slots.one_used,
+        'two_max', spell_slots.two_max,
+        'two_used', spell_slots.two_used,
+        'three_max', spell_slots.three_max,
+        'three_used', spell_slots.three_used,
+        'four_max', spell_slots.four_max,
+        'four_used', spell_slots.four_used,
+        'five_max', spell_slots.five_max,
+        'five_used', spell_slots.five_used,
+        'six_max', spell_slots.six_max,
+        'six_used', spell_slots.six_used,
+        'seven_max', spell_slots.seven_max,
+        'seven_used', spell_slots.seven_used,
+        'eight_max', spell_slots.eight_max,
+        'eight_used', spell_slots.eight_used,
+        'nine_max', spell_slots.nine_max,
+        'nine_used', spell_slots.nine_used
       ),
       'treasure', json_build_object(
         'id', treasure_table.id,
@@ -231,20 +213,27 @@ export const updateAbilityScoresQuery = (characterId: string, newAbilityScores: 
         character_ability_scores.wisdom,
         character_ability_scores.charisma;`;
 
-//TODO make this work, bulk insert
-export const bulkUpdateSpellSlotsQuery = (characterId: string, newSpellSlots: CharacterTypes.SpellSlotsType): string =>
-    `UPDATE character_spell_slot_data cssd
-     SET one_max=${newSpellSlots.one_max}, one_used=${newSpellSlots.one_used},
-         two_max=${newSpellSlots.two_max}, two_used=${newSpellSlots.two_used},
-         three_max=${newSpellSlots.three_max}, three_used=${newSpellSlots.three_used},
-         four_max=${newSpellSlots.four_max}, four_used=${newSpellSlots.four_used},
-         five_max=${newSpellSlots.five_max}, five_used=${newSpellSlots.five_used},
-         six_max=${newSpellSlots.six_max}, six_used=${newSpellSlots.six_used},
-         seven_max=${newSpellSlots.seven_max}, seven_used=${newSpellSlots.seven_used},
-         eight_max=${newSpellSlots.eight_max}, eight_used=${newSpellSlots.eight_used},
-         nine_max=${newSpellSlots.nine_max}, nine_used=${newSpellSlots.nine_used}
-    FROM character_data cd
-    WHERE cd.character_spell_slots_id=cssd.id;`;
+//TODO this works, bulk inserts all rows but opting ot use more flexible update
+// export const bulkUpdateSpellSlotsQuery = (characterId: string, newSpellSlots: CharacterTypes.SpellSlotsType): string =>
+//     `UPDATE character_spell_slots css
+//      SET one_max=${newSpellSlots.one_max}, one_used=${newSpellSlots.one_used},
+//          two_max=${newSpellSlots.two_max}, two_used=${newSpellSlots.two_used},
+//          three_max=${newSpellSlots.three_max}, three_used=${newSpellSlots.three_used},
+//          four_max=${newSpellSlots.four_max}, four_used=${newSpellSlots.four_used},
+//          five_max=${newSpellSlots.five_max}, five_used=${newSpellSlots.five_used},
+//          six_max=${newSpellSlots.six_max}, six_used=${newSpellSlots.six_used},
+//          seven_max=${newSpellSlots.seven_max}, seven_used=${newSpellSlots.seven_used},
+//          eight_max=${newSpellSlots.eight_max}, eight_used=${newSpellSlots.eight_used},
+//          nine_max=${newSpellSlots.nine_max}, nine_used=${newSpellSlots.nine_used}
+//     FROM character_data cd
+//     WHERE cd.character_spell_slots_id=css.id;`;
+
+export const bulkUpdateSpellSlotsQuery = (characterId: string, newSpellSlots: CharacterTypes.SpellSlotsType): string => {
+  const queryPrefix = `UPDATE character_spell_slots css SET`;
+  const queryValues = Object.keys(newSpellSlots).map(newKey => `${newKey}=${newSpellSlots[newKey]}`).join(", ")
+  const querySuffix = ` FROM character_data cd WHERE cd.character_spell_slots_id=${characterId}`;
+  return queryPrefix + queryValues + querySuffix;
+}
 
 export const updateSpellSlotAtLevelQuery = (characterId: string, level: string, newSpellSlots: CharacterTypes.SpellSlotsAtLevelType): string =>
   `UPDATE character_spell_slot_data
@@ -273,9 +262,10 @@ export const createFeatureOrTraitQuery = (characterId: string, newItem: Characte
    RETURNING character_id, index, title, body;`;
 
 export const bulkCreateFeatureOrTraitQuery = (characterId: string, newItems: CharacterTypes.BulkFeaturesAndTraitsType): string => {
-  const queryPrefix = "INSERT INTO character_features_and_traits (character_id, index, title, body) VALUES";
-  const parsedVals = newItems.map(item => `(${characterId}, ${item.index}, ${item.title}, ${item.body})`)
-  return  `${queryPrefix} ${parsedVals.join(", ")} RETURNING character_id, index, title, body;`;
+  const queryPrefix = "INSERT INTO character_features_and_traits (character_id, index, title, body) VALUES ";
+  const queryValues = newItems.map(item => `(${characterId}, ${item.index}, ${item.title}, ${item.body})`).join(", ")
+  const querySuffix = " RETURNING character_id, index, title, body";
+  return queryPrefix + queryValues + querySuffix;
 }
 
 export const updateFeaturesOrTraitsQuery = (updatedItem: CharacterTypes.FeatureAndTraitsType): string =>
@@ -283,17 +273,15 @@ export const updateFeaturesOrTraitsQuery = (updatedItem: CharacterTypes.FeatureA
    SET index=${updatedItem.index}, title=${updatedItem.title}, body=${updatedItem.body}
    WHERE cfat.id=${updatedItem.id};`;
 
-//TODO works, but can clean this up
 export const bulkUpdateFeaturesOrTraitsQuery = (characterId: string, updatedItems: CharacterTypes.BulkFeaturesAndTraitsType): string => {
-  let queryString = `UPDATE character_features_and_traits AS cfat 
+  const queryPrefix = `UPDATE character_features_and_traits AS cfat 
     SET index=c.index, title=c.title, body=c.body
     FROM (values `;
-  const parsedVals = updatedItems.map(item => `(${item.id}, ${item.index}, ${item.title}, ${item.body})`);
-  queryString += parsedVals.join(", ")
-  queryString += `) AS c(id, index, title, body)
+  const queryValues = updatedItems.map(item => `(${item.id}, ${item.index}, ${item.title}, ${item.body})`).join(", ");
+  const querySuffix = `) AS c(id, index, title, body)
     WHERE cfat.id=c.id
     RETURNING cfat.id, cfat.character_id, cfat.index, cfat.title, cfat.body;`;
-  return queryString;
+  return queryPrefix + queryValues + querySuffix;
 }
 
 export const getCharIdForFat = (itemId: string): string =>
@@ -305,23 +293,39 @@ export const deleteFeatureOrTraitQuery = (itemId: string): string =>
   `DELETE from character_features_and_traits cfat
    WHERE cfat.id=${itemId}; `;
 
-export const updateTreasureItemQuery = (itemId: string): string =>
-  ``;
+//todo need to test
+export const updateTreasureItemQuery = (itemId: string, newItem: CharacterTypes.TreasureItemType): string => {
+  const queryPrefix = `UPDATE character_treasure_items cti SET `;
+  const querySet = Object.keys(newItem).map(itemKey => `${itemKey}=${newItem[itemKey]}`).join(", ");
+  const querySuffix = ` WHERE cti.id=${itemId};`
+  return queryPrefix + querySet + querySuffix;
+ };
 
-export const createTreasureItemQuery = (characterId: string, newItem: CharacterTypes.TreasureItemType): string =>
-  ``;
+//todo need to test
+export const createTreasureItemQuery = (characterId: string, newItem: CharacterTypes.TreasureItemType): string => {
+  const queryPre = `INSERT INTO character_treasure_items cti (`;
+  const queryInsert = Object.keys(newItem).join(", ");
+  const queryPrefix = `${queryPre}${queryInsert}) VALUES (`;
+  const queryValues = Object.keys(newItem).map(itemKey => newItem[itemKey]).join(", ");
+  const querySuffix = "RETURNING cti.id, cti.id, cti.quantity, cti.weight_in_lbs, cti.bookmarked, cti.magical, cti.description_text;"
+  return queryPrefix + queryValues + querySuffix;
+};
 
+//todo need to test
 export const deleteTreasureItemQuery = (itemId: string): string =>
-  ``;
+  `DELETE from character_treasure_items cti
+   WHERE cti.id=${itemId}; `;
 
 export const updateHitDiceQuery = (hitDieId: string): string =>
-  ``;
+  `
+  `;
 
 export const addHitDieQuery = (characterId: string, hitDie: CharacterTypes.HitDieType): string =>
   ``;
 
 export const deleteHitDieQuery = (hitDieId: string): string =>
-  ``;
+  `DELETE from character_hit_dice chd
+   WHERE chd.id=${hitDieId}; `;
 
 export const updateCharacterSettings = (settings: CharacterTypes.CharacterSettingsType) string =>
   ``;
