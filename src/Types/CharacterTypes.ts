@@ -60,6 +60,7 @@ export interface SpellSlotsType {
 export interface SettingsType {
   id: number;
   ability_score_on_top: boolean;
+  [key: string]: boolean|number;
 }
 
 export interface DeathSavesType {
@@ -120,11 +121,6 @@ export interface TreasureType {
   }
 }
 
-export interface CharacterSettingsType {
-  id: number;
-  ability_score_on_top: boolean;
-}
-
 export interface HitDieType {
   id: number;
   num_dice: number;
@@ -182,6 +178,6 @@ export interface CharacterDataType {
     [key: string]: TreasureType;
   };
   _settings: {
-    ability_score_on_top: boolean;
+    [key: string]: SettingsType;
   }
-};
+}

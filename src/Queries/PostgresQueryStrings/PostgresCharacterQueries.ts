@@ -144,6 +144,132 @@ export const getCharacterByIdQuery = (characterId: string): string =>
       hit_dice.id,
       settings.id;`;
 
+export const createCharacterQuery = (newCharacter: CharacterTypes.CharacterDataType): string => {
+  const test = `
+WITH character_ability_scores_query as (
+    INSERT INTO character_ability_scores ( strength, dexterity, constitution, intelligence, wisdom, charisma )
+        VALUES (
+            ${newCharacter.ability_scores?.strength | null}
+                8, 14, 10, 18, 14, 12
+        )
+    RETURNING id
+), character_death_saves_query as (
+    INSERT INTO character_death_saves (successes, failures)
+        VALUES (0, 0)
+    RETURNING id
+), character_known_spells_query as (
+    INSERT INTO character_known_spells (
+      zero,
+      one,
+      two
+    )
+        VALUES (
+          '{mage hand, minor illusion, prestidigitation, toll the dead}',
+          '{charm person, detect magic, find familiar, fog cloud, grease, mage armor, magic missile, shield}',
+          '{invisibility, knock, misty step, web}'
+        )
+    RETURNING id
+), character_sheet_settings_query as (
+    INSERT INTO character_sheet_settings (ability_score_on_top)
+        VALUES (true)
+    RETURNING id
+), character_spell_slots_query as (
+    INSERT INTO character_spell_slots (one_id, two_id, three_id, four_id, five_id, six_id, seven_id, eight_id, nine_id)
+        VALUES (
+            (SELECT id from character_spell_slot_data_query_one),
+            (SELECT id from character_spell_slot_data_query_two),
+            (SELECT id from character_spell_slot_data_query_three),
+            (SELECT id from character_spell_slot_data_query_four),
+            (SELECT id from character_spell_slot_data_query_five),
+            (SELECT id from character_spell_slot_data_query_six),
+            (SELECT id from character_spell_slot_data_query_seven),
+            (SELECT id from character_spell_slot_data_query_eight),
+            (SELECT id from character_spell_slot_data_query_nine)
+        )
+    RETURNING id
+), character_treasure_money_query as (  --will insert items later
+    INSERT INTO character_treasure_money (gold, silver, electrum, copper)
+        VALUES (33, 0, 0, 0)
+    RETURNING id
+), character_treasure_query as (
+    INSERT INTO character_treasure (money_id)
+        VALUES ((SELECT id from character_treasure_money_query))
+    RETURNING id
+), character_data_query as (
+    INSERT INTO character_data (
+        user_name,
+        character_name,
+        level,
+        class,
+        background,
+        race,
+        spellcasting_ability,
+        experience,
+        proficiency_bonus,
+        inspiration,
+        armor_class,
+        initiative,
+        speed,
+        max_hp,
+        temp_hp,
+        current_hp,
+        skill_proficiencies,
+        saving_throw_proficiencies,
+        general_proficiencies,
+        known_languages,
+        prepared_spells,
+        character_ability_scores_id,
+        character_death_save_id,
+        character_known_spells_id,
+        character_spell_slots_id,
+        character_treasure_id,
+        character_sheet_settings_id
+    )
+        VALUES (
+            'elchung',
+            'Binky',
+            4,
+            'Wizard',
+            'Haunted One',
+            'Human (Variant)',
+            'Intelligence',
+            2700,
+            2,
+            0,
+            12,
+            7,
+            30,
+            18,  --max_hp
+            0,  --temp_hp
+            0,  --current_hp
+            '{Arcana, Investigation, Medicine, Religion}',  --skill_proficiencies
+            '{Intelligence, Wisdom}',  --saving_throw_proficiencies
+            '{Dagger, Dart, Light Crossbow, Quarterstaff, Sling}',  --general_proficiencies
+            '{Elvish, Gnome, Halfing, Draconic}', --known_languages
+            '{Charm Person, Fog Cloud, Magic Missile, Shield, Invisibiity, Web}',  --prepared_spells
+            (SELECT id from character_ability_scores_query),  --character_ability_scores_id
+            (SELECT id from character_death_saves_query), --character_death_save_id
+            (SELECT id from character_known_spells_query), --character_known_spells_id
+            (SELECT id from character_spell_slots_query), --character_spell_slots_id
+            (SELECT id from character_treasure_query), --character_treasure_id
+            (SELECT id from character_sheet_settings_query) --character_sheet_settings_id
+        )
+    RETURNING character_id
+), character_features_and_traits_query as (
+  INSERT INTO character_features_and_traits (character_id, index, title, body)
+      VALUES (
+          (SELECT character_id from character_data_query),
+          0,
+          'Alert',
+        'You can''t be surprised while conscious. You have a +5 bonus to initiative rolls. Other creatures also don''t gain advantage on attack rolls against you as a result of being hidden from you.'
+      )
+)
+INSERT INTO character_hit_dice (num_dice, dice_type, num_used, character_id)
+    VALUES (4, 6, 0, (SELECT character_id from character_data_query));
+
+  `
+}
+
 export const getCharacterNamesByUserIdQuery = (userId: string): string =>
   `  SELECT
          json_agg(
@@ -316,16 +442,28 @@ export const deleteTreasureItemQuery = (itemId: string): string =>
   `DELETE from character_treasure_items cti
    WHERE cti.id=${itemId}; `;
 
-export const updateHitDiceQuery = (hitDieId: string): string =>
-  `
+//todo need to test
+export const updateHitDiceQuery = (newHitDie: CharacterTypes.HitDieType): string =>
+  `UPDATE character_hit_dice
+   SET num_dice=${newHitDie.num_dice}, dice_type=${newHitDie.dice_type}, num_used=${newHitDie.num_used}
+   WHERE character_hit_dice.id=${newHitDie.id};
   `;
 
+//todo need to test
 export const addHitDieQuery = (characterId: string, hitDie: CharacterTypes.HitDieType): string =>
-  ``;
+  `INSERT INTO character_hit_dice (num_dice, dice_type, num_used, character_id)
+   VALUES (${hitDie.num_dice}, ${hitDie.dice_type}, ${hitDie.num_used}, ${characterId})
+   RETURNING character_id, num_used, dice_type, num_dice;`;
 
+//todo need to test
 export const deleteHitDieQuery = (hitDieId: string): string =>
   `DELETE from character_hit_dice chd
    WHERE chd.id=${hitDieId}; `;
 
-export const updateCharacterSettings = (settings: CharacterTypes.CharacterSettingsType) string =>
-  ``;
+//todo need to test
+export const updateCharacterSettings = (characterId: string, settings: CharacterTypes.SettingsType): string => {
+  const queryPrefix = `UPDATE character_sheet_settings css SET`;
+  const queryValues = Object.keys(settings).map(newKey => `${newKey}=${settings[newKey]}`).join(", ")
+  const querySuffix = ` FROM character_data cd WHERE cd.character_id=${characterId} and cd.character_sheet_settings_id=css.id`;
+  return queryPrefix + queryValues + querySuffix;
+};
