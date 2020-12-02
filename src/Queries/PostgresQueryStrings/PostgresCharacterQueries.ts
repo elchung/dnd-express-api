@@ -4,14 +4,21 @@ const numberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seve
 const numToIdName = ['', 'one_id', 'two_id', 'three_id', 'four_id', 'five_id', 'six_id', 'seven_id', 'eight_id', 'nine_id'];
 const abilityScores = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 const spellSlotKeys = ["one_max", "one_used", "two_max", "two_used", "three_max", "three_used", "four_max", "four_used", "five_max", "five_used", "six_max", "six_used", "seven_max", "seven_used", "eight_max", "eight_used", "nine_max", "nine_used"]
-const characterKeys = [
-  "character_id", "user_name", "character_name", "level", "class", "background", "race", "spellcasting_ability",
+const characterTextKeys = [
+  "user_name", "character_name", "level", "class", "background", "race", "spellcasting_ability",
+  ]
+const characterIntKeys = [
   "experience", "proficiency_bonus", "inspiration", "armor_class", "initiative", "speed", "max_hp", "temp_hp",
-  "current_hp", "hp_history", "skill_proficiencies", "saving_throw_proficiencies", "skill_expertise",
-  "general_proficiencies", "known_languages", "tool_and_other_proficiencies", "prepared_spells", "ability_scores",
+  "current_hp",
+  ]
+const characterIntListKeys = [
+  "hp_history", ]
+const characterTextListKeys = [ "skill_proficiencies", "saving_throw_proficiencies", "skill_expertise",
+  "general_proficiencies", "known_languages", "tool_and_other_proficiencies", "prepared_spells",
+  ]
+const characterReferenceKeys = ["ability_scores",
   "hit_dice", "death_saves", "known_spells", "spell_slots", "features_and_traits", "treasure", "_settings"
 ]
-
 
 
 
