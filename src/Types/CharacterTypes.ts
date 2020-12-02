@@ -38,30 +38,30 @@ export interface SpellSlotsAtLevelType {
 
 export interface SpellSlotsType {
   id?: number;
-  one_max?: number;
-  one_used?: number;
-  two_max?: number;
-  two_used?: number;
-  three_max?: number;
-  three_used?: number;
-  four_max?: number;
-  four_used?: number;
-  five_max?: number;
-  five_used?: number;
-  six_max?: number;
-  six_used?: number;
-  seven_max?: number;
-  seven_used?: number;
-  eight_max?: number;
-  eight_used?: number;
-  nine_max?: number;
-  nine_used?: number;
+  oneMax?: number;
+  oneUsed?: number;
+  twoMax?: number;
+  twoUsed?: number;
+  threeMax?: number;
+  threeUsed?: number;
+  fourMax?: number;
+  fourUsed?: number;
+  fiveMax?: number;
+  fiveUsed?: number;
+  sixMax?: number;
+  sixUsed?: number;
+  sevenMax?: number;
+  sevenUsed?: number;
+  eightMax?: number;
+  eightUsed?: number;
+  nineMax?: number;
+  nineUsed?: number;
   [key: string]: number|undefined;
 }
 
 export interface SettingsType {
   id: number;
-  ability_score_on_top: boolean;
+  abilityScoreOnTop: boolean;
   [key: string]: boolean|number;
 }
 
@@ -84,7 +84,7 @@ export interface KnownSpellsType {
 }
 
 export interface FeatureAndTraitsType {
-  character_id?: string;
+  characterId: string;
   index: string;
   title: string;
   body: string;
@@ -97,10 +97,10 @@ export interface TreasureItemType {
   name: string;
   id?: number;
   quantity: number;
-  weight_in_lbs?: number;
+  weightInLbs?: number;
   bookmarked: boolean;
   magical: boolean;
-  description_text?: string;
+  descriptionText?: string;
   [key: string]: string|number|boolean|undefined;
 }
 
@@ -125,55 +125,55 @@ export interface TreasureType {
 
 export interface HitDieType {
   id: number;
-  num_dice: number;
-  dice_type: number;
-  num_used: number;
+  numDice: number;
+  diceType: number;
+  numUsed: number;
 }
 
 export interface HitDiceType  extends Array<HitDieType>{}
 
 export interface CharacterDataType {
-  character_id: number;
-  user_name: string;
-  character_name?: string;
+  characterId: number;
+  username: string;
+  characterName?: string;
   level?: number;
   class?: string;
   background?: string;
   race?: string;
-  spellcasting_ability?: string;
+  spellcastingAbility?: string;
   experience?: number;
-  proficiency_bonus?: number;
+  proficiencyBonus?: number;
   inspiration?: number;
-  armor_class?: number;
+  armorClass?: number;
   initiative?: number;
   speed?: number;
-  max_hp?: number;
-  temp_hp?: number;
-  current_hp?: number;
-  hp_history?: number[];
-  skill_proficiencies?: string[];
-  saving_throw_proficiencies?: string[];
-  skill_expertise?: string[];
-  general_proficiencies?: string[];
-  known_languages?: string[];
-  tool_and_other_proficiencies?: string[];
-  prepared_spells?: string[];
-  ability_scores?: {
+  maxHp?: number;
+  tempHp?: number;
+  currentHp?: number;
+  hpHistory?: number[];
+  skillProficiencies?: string[];
+  savingThrowProficiencies?: string[];
+  skillExpertise?: string[];
+  generalProficiencies?: string[];
+  knownLanguages?: string[];
+  toolAndOtherProficiencies?: string[];
+  preparedSpells?: string[];
+  abilityScores?: {
     [key: string]: AbilityScoresType;
   };
-  hit_dice?: {
+  hitDice?: {
     [key: string]: HitDiceType;
   };
-  death_saves?: {
+  deathSaves?: {
     [key: string]: DeathSavesType;
   };
-  known_spells?: {
+  knownSpells?: {
     [key: string]: KnownSpellsType;
   };
-  spell_slots?: {
+  spellSlots?: {
     [key: string]: SpellSlotsType;
   };
-  features_and_traits?: {
+  featuresAndTraits?: {
     [key: string]: BulkFeaturesAndTraitsType;
   };
   treasure?: {

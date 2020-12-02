@@ -1,4 +1,4 @@
-CREATE TABLE character_ability_scores (
+CREATE TABLE characterAbilityScores (
 	id SERIAL primary key,
 	strength 	 INT,
 	dexterity    INT,
@@ -8,49 +8,49 @@ CREATE TABLE character_ability_scores (
 	charisma     INT
 );
 
-CREATE TABLE character_death_saves (
+CREATE TABLE characterDeathSaves (
 	id SERIAL primary key,
 	successes INT not null default 0,
 	failures  INT not null default 0
 );
 
-CREATE TABLE character_known_spells (
-  id SERIAL primary key,
-	zero  TEXT[],
-	one   TEXT[],
-	two   TEXT[],
-	three TEXT[],
-	four  TEXT[],
-	five  TEXT[],
-	six   TEXT[],
-	seven TEXT[],
-	eight TEXT[],
-	nine  TEXT[]
+CREATE TABLE characterKnownSpells (
+    id SERIAL primary key,
+    zero  TEXT[],
+    one   TEXT[],
+    two   TEXT[],
+    three TEXT[],
+    four  TEXT[],
+    five  TEXT[],
+    six   TEXT[],
+    seven TEXT[],
+    eight TEXT[],
+    nine  TEXT[]
 );
 
-CREATE TABLE character_spell_slots (
+CREATE TABLE characterSpellSlots (
     id serial primary key,
-    one_max INT,
-    one_used INT,
-    two_max INT,
-    two_used INT,
-    three_max INT,
-    three_used INT,
-    four_max INT,
-    four_used INT,
-    five_max INT,
-    five_used INT,
-    six_max INT,
-    six_used INT,
-    seven_max INT,
-    seven_used INT,
-    eight_max INT,
-    eight_used INT,
-    nine_max INT,
-    nine_used INT
+    oneMax INT,
+    oneUsed INT,
+    twoMax INT,
+    twoUsed INT,
+    threeMax INT,
+    threeUsed INT,
+    fourMax INT,
+    fourUsed INT,
+    fiveMax INT,
+    fiveUsed INT,
+    sixMax INT,
+    sixUsed INT,
+    sevenMax INT,
+    sevenIsed INT,
+    eightMax INT,
+    eightUsed INT,
+    nineMax INT,
+    nineUsed INT
 );
 
-CREATE TABLE character_treasure_money (
+CREATE TABLE characterTreasureMoney (
 	id       serial primary key,
 	gold     INT not null default 0,
 	silver   INT not null default 0,
@@ -58,74 +58,74 @@ CREATE TABLE character_treasure_money (
 	copper   INT not null default 0
 );
 
-CREATE TABLE character_treasure (
+CREATE TABLE characterTreasure (
     id serial primary key,
-    money_id INT not null references character_treasure_money(id) on delete cascade
+    moneyId INT not null references characterTreasureMoney(id) on delete cascade
     --treasure items points to this
 );
 
-CREATE TABLE character_treasure_items (
+CREATE TABLE characterTreasureItems (
 	id serial primary key,
 	name TEXT not null,
 	quantity INT,
-	weight_in_lbs INT,
+	weightInLbs INT,
 	bookmarked BOOL not null default false,
 	magical BOOL not null default false,
-	description_text TEXT,
-    treasure_id INT references character_treasure(id)
+	descriptionText TEXT,
+    treasureId INT references characterTreasure(id)
 );
 
 
-CREATE TABLE character_sheet_settings (
+CREATE TABLE characterSheetSettings (
 	id serial primary key,
-	ability_score_on_top BOOL not null default true
+	abilityScoreOnTop BOOL not null default true
 );
 
-CREATE TABLE character_data (
-	character_id serial primary key,
-	user_name TEXT not null unique,
-	character_name TEXT,
+CREATE TABLE characterData (
+	characterId serial primary key,
+	username TEXT not null unique,
+	characterName TEXT,
 	level TEXT,
 	class TEXT,
 	background TEXT,
 	race TEXT,
-	spellcasting_ability TEXT,
+	spellcastingAbility TEXT,
 	experience INT,
-	proficiency_bonus INT,
+	proficiencyBonus INT,
 	inspiration INT,
-	armor_class INT,
+	armorClass INT,
 	initiative INT,
 	speed INT,
-	max_hp INT,
-	temp_hp INT,
-	current_hp INT,
-	hp_history INT[],
-	skill_proficiencies TEXT[],
-	saving_throw_proficiencies TEXT[],
-	skill_expertise TEXT[],
-	general_proficiencies TEXT[],
-	known_languages TEXT[],
-	tool_and_other_proficiencies TEXT[],
-	prepared_spells TEXT[],
-	character_ability_scores_id INT references character_ability_scores(id) on delete cascade,
-	character_death_save_id INT not null not null references character_death_saves(id) on delete cascade,
-	character_known_spells_id INT not null references character_known_spells(id) on delete cascade,
-	character_spell_slots_id INT not null references character_spell_slots(id) on delete cascade,
-	character_treasure_id INT not null references character_treasure(id) on delete cascade,
-	character_sheet_settings_id INT not null references character_sheet_settings(id) on delete cascade
+	maxHp INT,
+	tempHp INT,
+	currentHp INT,
+	hpHistory INT[],
+	skillProficiencies TEXT[],
+	savingThrowProficiencies TEXT[],
+	skillExpertise TEXT[],
+	generalProficiencies TEXT[],
+	knownLanguages TEXT[],
+	toolAndOtherProficiencies TEXT[],
+	preparedSpells TEXT[],
+	characterAbilityScoresId INT references characterAbilityScores(id) on delete cascade,
+	characterDeathSaveId INT not null not null references characterDeathSaves(id) on delete cascade,
+	characterKnownSpellsId INT not null references characterKnownSpells(id) on delete cascade,
+	characterSpellSlotsId INT not null references characterSpellSlots(id) on delete cascade,
+	characterTreasureId INT not null references characterTreasure(id) on delete cascade,
+	characterSheetSettingsId INT not null references characterSheetSettings(id) on delete cascade
 );
 
-CREATE TABLE character_hit_dice (
+CREATE TABLE characterHitDice (
 	id SERIAL primary key,
-	num_dice  INT,
-	dice_type INT,
-	num_used  INT,
-	character_id INT not null references character_data(character_id) on delete cascade
+	numDice  INT,
+	diceType INT,
+	numUsed  INT,
+	characterId INT not null references characterData(characterId) on delete cascade
 );
 
-CREATE TABLE character_features_and_traits (
+CREATE TABLE characterFeaturesAndTraits (
 	id serial primary key,
-	character_id INT not null references character_data(character_id),
+	characterId INT not null references characterData(characterId),
     index INT not null,
 	title TEXT,
 	body  TEXT

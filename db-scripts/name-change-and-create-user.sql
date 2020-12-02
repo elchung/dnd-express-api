@@ -1,7 +1,7 @@
-ALTER DATABASE `dnd-character-db` to dnd_db;
+ALTER DATABASE `dnd-character-db` to dndDb;
 
-REVOKE CONNECT ON DATABASE dnd_db FROM PUBLIC;
+REVOKE CONNECT ON DATABASE dndDb FROM PUBLIC;
 
 CREATE USER dndUser WITH PASSWORD 'cjfR4M-etye4';
 
-grant select,insert,delete,update on database dnd_db to dndUser;
+grant select,insert,delete,update on database dndDb to dndUser;
