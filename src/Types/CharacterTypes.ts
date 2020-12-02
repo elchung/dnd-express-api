@@ -7,12 +7,13 @@ export interface CharacterListType extends Array<SingleCharacterListType>{}
 
 export interface AbilityScoresType {
   id: number;
-  strength: number;
-  dexterity: number;
-  constitution: number;
-  intelligence: number;
-  wisdom: number;
-  charisma: number;
+  strength?: number;
+  dexterity?: number;
+  constitution?: number;
+  intelligence?: number;
+  wisdom?: number;
+  charisma?: number;
+  [key: string]: number|undefined;
 }
 
 export interface KnownSpellsType {
@@ -27,6 +28,7 @@ export interface KnownSpellsType {
   seven: string[];
   eight: string[];
   nine: string[];
+  [key:string]: any;
 }
 
 export interface SpellSlotsAtLevelType {
@@ -162,7 +164,7 @@ export interface CharacterDataType {
   hit_dice?: {
     [key: string]: HitDiceType;
   };
-  death_save?: {
+  death_saves?: {
     [key: string]: DeathSavesType;
   };
   known_spells?: {
