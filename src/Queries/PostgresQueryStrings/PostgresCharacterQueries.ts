@@ -51,7 +51,7 @@ const characterReferenceKeys = [
 
 
 export const getCharacterByIdQuery = (characterId: string): string =>
-  ` select
+    ` select
     json_build_object(
       'characterId', cd.characterId,
       'username', cd.username,
