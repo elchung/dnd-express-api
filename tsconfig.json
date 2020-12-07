@@ -8,6 +8,7 @@
     "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     "moduleResolution": "node",
+    "sourceMap": true,
     /* Experimental Options */
      "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
      "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
@@ -17,10 +18,18 @@
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "src/*"
+    "src/*.ts",
+    "src/**/*.ts",
+    "src/**/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     ".npm"
+  ],
+  "types": [
+    "node",
+    "body-parser",
+    "cors",
+    "express"
   ]
 }
