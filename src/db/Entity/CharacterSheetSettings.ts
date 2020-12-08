@@ -4,12 +4,12 @@ import {CharacterData} from "./CharacterData";
 @Entity()
 export class CharacterSettings {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  abilityScoreOnTop: boolean;
+  abilityScoreOnTop!: boolean;
 
   @OneToOne(type => CharacterData, character => character.knownSpells)
   @JoinColumn()
-  character: CharacterData;
+  character!: CharacterData;
 }

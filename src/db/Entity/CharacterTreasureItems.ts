@@ -4,26 +4,26 @@ import {CharacterTreasure} from "./CharacterTreasure";
 @Entity()
 export class CharacterTreasureItem {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column()
-  quantity: number;
+  quantity!: number;
 
   @Column()
-  weightInLbs: number;
+  weightInLbs?: number;
 
   @Column()
-  bookmarked: boolean;
+  bookmarked!: boolean;
 
   @Column()
-  magical: boolean;
+  magical!: boolean;
 
   @Column()
-  description: string;
+  description?: string;
 
   @ManyToOne(type => CharacterTreasure, treasure => treasure.items)
-  parentTreasure: CharacterTreasure;
+  parentTreasure!: CharacterTreasure;
 }

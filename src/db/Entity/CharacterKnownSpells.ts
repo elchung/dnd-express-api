@@ -4,39 +4,39 @@ import {CharacterData} from "./CharacterData";
 @Entity()
 export class CharacterKnownSpells {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @OneToOne(type => CharacterData, character => character.knownSpells)
   @JoinColumn()
-  character: CharacterData;
+  character!: CharacterData;
 
   @Column()
-  zero: string[];
+  zero?: string[];
 
   @Column()
-  one: string[];
+  one?: string[];
 
   @Column()
-  two: string[];
+  two?: string[];
 
   @Column()
-  three: string[];
+  three?: string[];
 
   @Column()
-  four: string[];
+  four?: string[];
 
   @Column()
-  five: string[];
+  five?: string[];
 
   @Column()
-  six: string[];
+  six?: string[];
 
   @Column()
-  seven: string[];
+  seven?: string[];
 
   @Column()
-  eight: string[];
+  eight?: string[];
 
   @Column()
-  nine: string[];
+  nine?: string[];
 }

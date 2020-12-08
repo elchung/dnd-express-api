@@ -4,27 +4,27 @@ import {CharacterData} from "./CharacterData";
 @Entity()
 export class CharacterAbilityScores {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @OneToOne(type => CharacterData, character => character.abilityScores)
   @JoinColumn()
-  character: CharacterData;
+  character!: CharacterData;
 
   @Column()
-  strength: number;
+  strength?: number;
 
   @Column()
-  dexterity: number;
+  dexterity?: number;
 
   @Column()
-  constitution: number;
+  constitution?: number;
 
   @Column()
-  intelligence: number;
+  intelligence?: number;
 
   @Column()
-  wisdom: number;
+  wisdom?: number;
 
   @Column()
-  charisma: number;
+  charisma?: number;
 }

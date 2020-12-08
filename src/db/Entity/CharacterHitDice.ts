@@ -3,19 +3,19 @@ import {CharacterData} from "./CharacterData";
 
 export class CharacterHitDice {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @ManyToOne(type => CharacterData, character => character.hitDice)
   @JoinColumn()
-  character: CharacterData;
+  character!: CharacterData;
 
   @Column()
-  numDice: number;
+  numDice?: number;
 
   @Column()
-  diceType: number;
+  diceType?: number;
 
   @Column()
-  numUsed: number;
+  numUsed?: number;
 }
 

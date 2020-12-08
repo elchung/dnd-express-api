@@ -4,18 +4,18 @@ import {CharacterData} from "./CharacterData";
 @Entity()
 export class CharacterFeaturesAndTraits {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @ManyToOne(type => CharacterData, character => character.featuresAndTraits)
   @JoinColumn()
-  character: CharacterData;
+  character!: CharacterData;
 
   @Column()
-  index: number;
+  index!: number;
 
   @Column()
-  title: string;
+  title?: string;
 
   @Column()
-  body: string;
+  body?: string;
 }

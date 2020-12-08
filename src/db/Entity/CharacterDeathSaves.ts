@@ -4,15 +4,15 @@ import {CharacterData} from "./CharacterData";
 @Entity()
 export class CharacterDeathSaves {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @OneToOne(type => CharacterData, character => character.deathSaves)
   @JoinColumn()
-  character: CharacterData;
+  character!: CharacterData;
 
   @Column()
-  successes: number;
+  successes!: number;
 
   @Column()
-  failures: number;
+  failures!: number;
 }

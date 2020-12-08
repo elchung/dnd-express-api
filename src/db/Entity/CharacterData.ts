@@ -11,102 +11,101 @@ import {CharacterTreasure} from "./CharacterTreasure";
 @Entity()
 export class CharacterData {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  username: string;
+  username!: string;
 
   @Column()
-  characterName: string;
+  characterName?: string;
 
   @Column()
-  level: number;
+  level?: number;
 
   @Column()
-  class: string;
+  class?: string;
 
   @Column()
-  background: string;
+  background?: string;
 
   @Column()
-  race: string;
+  race?: string;
 
   @Column()
-  spellcastingAbility: string;
+  spellcastingAbility?: string;
 
   @Column()
-  experience: number;
+  experience?: number;
 
   @Column()
-  proficiencyBonus: number;
+  proficiencyBonus?: number;
 
   @Column()
-  inspiration: number;
+  inspiration?: number;
 
   @Column()
-  armorClass: number;
+  armorClass?: number;
 
   @Column()
-  initiative: number;
+  initiative?: number;
 
   @Column()
-  speed: number;
+  speed?: number;
 
   @Column()
-  maxHp: number;
+  maxHp?: number;
 
   @Column()
-  tempHp: number;
+  tempHp?: number;
 
   @Column()
-  currentHp: number;
+  currentHp?: number;
 
   @Column()
-  hpHistory: number[];
+  hpHistory?: number[];
 
   @Column()
-  skillProficiencies: string[];
+  skillProficiencies?: string[];
 
   @Column()
-  savingThrowProficiencies: string[];
+  savingThrowProficiencies?: string[];
 
   @Column()
-  skillExpertise: string[];
+  skillExpertise?: string[];
 
   @Column()
-  generalProficiencies: string[];
+  generalProficiencies?: string[];
 
   @Column()
-  knownLanguages: string[];
+  knownLanguages?: string[];
 
   @Column()
-  toolAndOtherProficiencies: string[];
+  toolAndOtherProficiencies?: string[];
 
   @Column()
-  preparedSpells: string[];
+  preparedSpells?: string[];
 
-  @OneToMany(type => CharacterHitDice, hitDice => hitDice.character, { cascade: true })
-  hitDice: CharacterHitDice[];
+  @OneToMany(type => CharacterHitDice, hitDice => hitDice.character, { cascade: true, eager: true })
+  hitDice?: CharacterHitDice[];
 
-  @OneToOne(type => CharacterAbilityScores, abilityScores => abilityScores.character, { cascade: true })
-  abilityScores: CharacterAbilityScores;
+  @OneToOne(type => CharacterAbilityScores, abilityScores => abilityScores.character, { cascade: true, eager: true })
+  abilityScores!: CharacterAbilityScores;
 
-  @OneToOne(type => CharacterDeathSaves, deathSaves => deathSaves.character, { cascade: true })
-  deathSaves: CharacterDeathSaves;
+  @OneToOne(type => CharacterDeathSaves, deathSaves => deathSaves.character, { cascade: true, eager: true })
+  deathSaves!: CharacterDeathSaves;
 
-  @OneToOne(type => CharacterKnownSpells, knownSpells => knownSpells.character, { cascade: true })
-  knownSpells: CharacterKnownSpells;
+  @OneToOne(type => CharacterKnownSpells, knownSpells => knownSpells.character, { cascade: true, eager: true })
+  knownSpells!: CharacterKnownSpells;
 
-  @OneToOne(type => CharacterSpellSlots, spellSlots => spellSlots.character, { cascade: true })
-  spellSlots: CharacterSpellSlots
+  @OneToOne(type => CharacterSpellSlots, spellSlots => spellSlots.character, { cascade: true, eager: true })
+  spellSlots!: CharacterSpellSlots
 
-  @OneToMany(type => CharacterFeaturesAndTraits, featuresAndTraits => featuresAndTraits.character, { cascade: true })
-  featuresAndTraits: CharacterFeaturesAndTraits[];
+  @OneToMany(type => CharacterFeaturesAndTraits, featuresAndTraits => featuresAndTraits.character, { cascade: true, eager: true })
+  featuresAndTraits?: CharacterFeaturesAndTraits[];
 
-  @OneToOne(type => CharacterTreasure, treasure => treasure.character, { cascade: true })
-  treasure: CharacterTreasure;
+  @OneToOne(type => CharacterTreasure, treasure => treasure.character, { cascade: true, eager: true })
+  treasure?: CharacterTreasure;
 
-  @OneToOne(type => CharacterSettings, settings => settings.character)
-  settings: CharacterSettings;
-
+  @OneToOne(type => CharacterSettings, settings => settings.character, { cascade: true, eager: true })
+  settings!: CharacterSettings;
 }

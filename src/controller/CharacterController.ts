@@ -1,96 +1,147 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
-// import {User} from "../../dnd-express-api/src/entity/User";
-// export class UserController {
-//
-//   private userRepository = getRepository(User);
-//
-//   async all(request: Request, response: Response, next: NextFunction) {
-//     return this.userRepository.find();
-//   }
-//
-//   async one(request: Request, response: Response, next: NextFunction) {
-//     return this.userRepository.findOne(request.params.id);
-//   }
-//
-//   async save(request: Request, response: Response, next: NextFunction) {
-//     return this.userRepository.save(request.body);
-//   }
-//
-//   async remove(request: Request, response: Response, next: NextFunction) {
-//     let userToRemove = await this.userRepository.findOne(request.params.id);
-//     await this.userRepository.remove(userToRemove);
-//   }
-//
-// }
+import {CharacterData} from "../db/Entity/CharacterData";
+import {CharacterAbilityScores} from "../db/Entity/CharacterAbilityScores";
+import {CharacterTreasure} from "../db/Entity/CharacterTreasure";
+import {CharacterFeaturesAndTraits} from "../db/Entity/CharacterFeaturesAndTraits";
+import {CharacterSpellSlots} from "../db/Entity/CharacterSpellSlots";
+import {CharacterKnownSpells} from "../db/Entity/CharacterKnownSpells";
+import {CharacterDeathSaves} from "../db/Entity/CharacterDeathSaves";
+import {CharacterSettings} from "../db/Entity/CharacterSheetSettings";
+import {CharacterHitDice} from "../db/Entity/CharacterHitDice";
+import {CharacterTreasureItem} from "../db/Entity/CharacterTreasureItems";
+import {CharacterTreasureMoney} from "../db/Entity/CharacterTreasureMoney";
 
-// app.get('/characters/:characterId', async (request, response) => {});
-//
-// app.get('/characters/user/:username', async (request, response) => {});
-//
-// app.post('/characters/', async (request, response) => {});
-//
-// app.put('/characters/:characterId', (request, response) => {});
-//
-// app.put('/characters/:characterId/death_saves', async (request, response) => {});
-//
-// app.put('/characters/:characterId/known_spells', async (request, response) => {});
-//
-// app.put('/characters/:characterId/known_spells/:level', async (request, response) => {});
-//
-// app.put('/characters/:characterId/ability_scores', async (request, response) => {});
-//
-// app.post('/characters/:characterId/features_and_traits', async (request, response) => {
-// });
-//
-// app.post('/characters/:characterId/features_and_traits/bulk', async (request, response) => {
-// });
-//
-// app.put('/characters/:characterId/features_and_traits/', async (request, response) => {
-// });
-//
-// app.put('/characters/:characterId/features_and_traits/bulk', async (request, response) => {
-// });
-//
-// app.delete('/characters/:characterId/features_and_traits/:fatId', async (request, response) => {
-// })
-//
-// app.put('/characters/:characterId/spell_slots/', async (request, response) => {  // TODO need to figure this out
-//
-// });
-//
-// app.put('/characters/:characterId/spell_slots/:level', async (request, response) => {
-//
-// });
-//
-// app.put('/characters/:characterId/treasure/money', async (request, response) => {
-//
-// });
-//
-// // app.put('/characters/:characterId/treasure/items/:id', async (request, response) => {
-//
-// // });
-//
-// // app.post('/characters/:characterId/treasure/items', async (request, response) => {
-//
-// // });
-//
-// // app.delete('/characters/:characterId/treasure/items/:id', async (request, response) => {
-//
-// // });
-//
-// // app.put('/characters/:characterId/treasure/items/:id', async (request, response) => {
-//
-// // });
-//
-// // app.put('/characters/:characterId/settings', async (request, response) => {
-//
-// // });
-//
-// // app.post('/characters/:characterId/hit_dice', async (request, response) => {
-//
-// // });
-//
-// // app.delete('/characters/:characterId/hit_dice/:id', async (request, response) => {
-//
-// // });
+export class CharacterController {
+  private characterRepository = getRepository(CharacterData);
+  private abilityScoreRepository = getRepository(CharacterAbilityScores);
+  private treasureRepository = getRepository(CharacterTreasure);
+  private featuresAndTraitsRepository = getRepository(CharacterFeaturesAndTraits);
+  private spellSlotsRepository = getRepository(CharacterSpellSlots);
+  private knownSpellsRepository = getRepository(CharacterKnownSpells);
+  private deathSavesRepository = getRepository(CharacterDeathSaves);
+  private settingsRepository = getRepository(CharacterSettings);
+  private hitDiceRepository = getRepository(CharacterHitDice);
+  private treasureItemsRepository = getRepository(CharacterTreasureItem);
+  private treasureMoneyRepository = getRepository(CharacterTreasureMoney);
+
+  //TODO test
+  getCharacterById = async (request: Request, response: Response, next: NextFunction) => {
+    return this.characterRepository.findOne(request.params.characterId);
+  };
+
+  //TODO test
+  getCharactersByUsername = async (request: Request, response: Response, next: NextFunction) => {
+    return this.characterRepository.find({username: request.params.username})
+  };
+
+  //TODO test
+  createCharacter = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateCharacterById = async (request: Request, response: Response, next: NextFunction) => {
+    // let updatedCharacter = this.characterRepository.find(request.params.characterId);
+    // //need to figure out if we give full update skeleton or not
+    // // do update magic
+    // //
+    //
+    // this.characterRepository.save(updatedCharacter);
+  };
+
+  //TODO test
+  updateCharacterDeathSaves = async (request: Request, response: Response, next: NextFunction) => {
+    // let deathSaves = this.deathSavesRepository.find({character.characterId: request.params.characterId})
+  };
+
+  //TODO test
+  updateKnownSpells = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateKnownSpellsAtLevel = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateAbilityScores = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  createFeatureAndTrait = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  createFeaturesAndTraits = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateFeatureAndTrait = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateFeaturesAndTraits = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  deleteFeatureAndTrait = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateSpellSlots = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateSpellSlotsAtLevel = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateTreasureMoney = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateTreasureItem = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  createTreasureItem = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  deleteTreasureItem = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateCharacterSettings = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  createHitDice = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  deleteHitDice = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+
+  //TODO test
+  updateHitDice = async (request: Request, response: Response, next: NextFunction) => {
+
+  };
+};

@@ -4,64 +4,64 @@ import {CharacterData} from "./CharacterData";
 @Entity()
 export class CharacterSpellSlots {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @OneToOne(type => CharacterData, character => character.spellSlots)
   @JoinColumn()
-  character: CharacterData;
+  character!: CharacterData;
 
   @Column()
-  oneMax: number;
+  oneMax?: number;
 
   @Column()
-  oneUsed: number;
+  oneUsed?: number;
 
   @Column()
-  twoMax: number;
+  twoMax?: number;
 
   @Column()
-  twoUsed: number;
+  twoUsed?: number;
 
   @Column()
-  threeMax: number;
+  threeMax?: number;
 
   @Column()
-  threeUsed: number;
+  threeUsed?: number;
 
   @Column()
-  fourMax: number;
+  fourMax?: number;
 
   @Column()
-  fourUsed: number;
+  fourUsed?: number;
 
   @Column()
-  fiveMax: number;
+  fiveMax?: number;
 
   @Column()
-  fiveUsed: number;
+  fiveUsed?: number;
 
   @Column()
-  sixMax: number;
+  sixMax?: number;
 
   @Column()
-  sixUsed: number;
+  sixUsed?: number;
 
   @Column()
-  sevenMax: number;
+  sevenMax?: number;
 
   @Column()
-  sevenUsed: number;
+  sevenUsed?: number;
 
   @Column()
-  eightMax: number;
+  eightMax?: number;
 
   @Column()
-  eightUsed: number;
+  eightUsed?: number;
 
   @Column()
-  nineMax: number;
+  nineMax?: number;
 
   @Column()
-  nineUsed: number;
+  nineUsed?: number;
 
 }

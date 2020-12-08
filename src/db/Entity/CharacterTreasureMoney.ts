@@ -4,21 +4,21 @@ import {CharacterTreasure} from "./CharacterTreasure";
 @Entity()
 export class CharacterTreasureMoney {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  gold: number;
+  gold!: number;
 
   @Column()
-  silver: number;
+  silver!: number;
 
   @Column()
-  electrum: number;
+  electrum!: number;
 
   @Column()
-  copper: number;
+  copper!: number;
 
   @OneToOne(type => CharacterTreasure, parentTreasure => parentTreasure.money)
   @JoinColumn()
-  parentTreasure: CharacterTreasure
+  parentTreasure!: CharacterTreasure
 }
