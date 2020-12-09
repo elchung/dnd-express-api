@@ -8,7 +8,7 @@ import swaggerDocument from '../swagger.js';
 import cors from 'cors';
 import {Routes} from './routes'
 
-if(process.env.NODE_ENV !== 'production') dotenv.config({ path: __dirname+'/../../.env' });
+if (process.env.NODE_ENV !== 'production') dotenv.config({ path: __dirname+'/../../.env' });
 if (!process.env.DB_USER_NAME || !process.env.DB_HOST || !process.env.DB_NAME || !process.env.DB_USER_PASSWORD || !process.env.DB_PORT) {
   throw new Error("Missing db variables.");
 }
@@ -20,9 +20,12 @@ createConnection({
   username: process.env.DB_USER_NAME,
   password: process.env.DB_USER_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [__dirname + "/entity/*{.ts,.js}"],
+  entities: [
+    __dirname + "/db/Entity/*.ts",
+    __dirname + "/db/Entity/*.js",
+  ],
   synchronize: true,
-  logging: false
+  logging: true,
 }).then(async connection => {
   const app = express();
   const port = process.env.PORT;

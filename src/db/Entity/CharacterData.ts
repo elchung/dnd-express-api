@@ -61,28 +61,28 @@ export class CharacterData {
   @Column()
   currentHp?: number;
 
-  @Column()
+  @Column("int", { array: true })
   hpHistory?: number[];
 
-  @Column()
+  @Column("text", { array: true })
   skillProficiencies?: string[];
 
-  @Column()
+  @Column("text", { array: true })
   savingThrowProficiencies?: string[];
 
-  @Column()
+  @Column("text", { array: true })
   skillExpertise?: string[];
 
-  @Column()
+  @Column("text", { array: true })
   generalProficiencies?: string[];
 
-  @Column()
+  @Column("text", { array: true })
   knownLanguages?: string[];
 
-  @Column()
+  @Column("text", { array: true })
   toolAndOtherProficiencies?: string[];
 
-  @Column()
+  @Column("text", { array: true })
   preparedSpells?: string[];
 
   @OneToMany(type => CharacterHitDice, hitDice => hitDice.character, { cascade: true, eager: true })

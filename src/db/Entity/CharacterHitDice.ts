@@ -1,6 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne} from "typeorm";
 import {CharacterData} from "./CharacterData";
 
+@Entity()
 export class CharacterHitDice {
   @PrimaryGeneratedColumn()
   id!: number;
